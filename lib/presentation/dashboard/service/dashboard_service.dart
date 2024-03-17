@@ -15,7 +15,7 @@ class DashBoardSerivce {
       });
       if (response['_id']!=null) {
         return ApiResponse(
-            true, response['_id'], 'Successfully Registered!');
+            true, response, 'Successfully Registered!');
       }
       return ApiResponse(false, null, response['message']);
     } catch (e) {
@@ -31,7 +31,7 @@ class DashBoardSerivce {
       });
       if (response['_id']!=null) {
         return ApiResponse(
-            true, response['_id'], 'Successfully Logged In!');
+            true, response, 'Successfully Logged In!');
       }
       return ApiResponse(false, null, response['message']);
     } catch (e) {

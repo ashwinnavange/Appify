@@ -3,6 +3,7 @@ import 'dart:html' as html;
 
 class PrefHelper {
   static const String USER_ID = 'user-id';
+  static const String USER_NAME = 'user-name';
 
   static SharedPreferences? _pref;
   static final PrefHelper _instance = PrefHelper._privateConstructor();

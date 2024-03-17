@@ -225,12 +225,46 @@ class MyAppBar extends GetWidget<DashBoardController>
   }
 
   Widget navUser(context) {
-    return InkWell(
-      onTap: () {
-        PrefHelper().removeCache();
-        controller.isLoggedIn();
+    return PopupMenuButton<int>(
+      offset: Offset(0, 60),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 0,
+          child: Center(child: Text('Welcome, ${Utils.getUserName()}!')),
+          enabled: false,
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem(
+          value: 1,
+          child: Row(
+            children: [
+              Icon(Icons.upload),
+              SizedBox(width: 10),
+              Text("Upload App"),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 2,
+          child: Row(
+            children: [
+              Icon(Icons.logout),
+              SizedBox(width: 10),
+              Text("Log out"),
+            ],
+          ),
+        ),
+      ],
+      onSelected: (value) {
+        if (value == 1) {
+          Get.toNamed(AppRoutes.upload);
+        }
+        if (value == 2) {
+          PrefHelper().removeCache();
+          controller.isLoggedIn();
+        }
       },
-      child: const CircleAvatar(
+      child: CircleAvatar(
         radius: 20,
         backgroundColor: Color(0xFFEEEEEE),
         child: Icon(

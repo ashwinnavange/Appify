@@ -82,7 +82,8 @@ class DashBoardController extends GetxController {
           emailController.text.trim(),
           passwordController.text.trim());
       if (response.status) {
-        await PrefHelper().setString(PrefHelper.USER_ID, response.data);
+        await PrefHelper().setString(PrefHelper.USER_ID, response.data['_id']);
+        await PrefHelper().setString(PrefHelper.USER_NAME, response.data['name']);
         isLoggedIn();
         Utils.showToaster(response.message, Get.context!);
         Navigator.of(Get.context!).pop();
@@ -107,7 +108,8 @@ class DashBoardController extends GetxController {
       final response = await _dashboardService.loginUser(
           emailController.text.trim(), passwordController.text.trim());
       if (response.status) {
-        await PrefHelper().setString(PrefHelper.USER_ID, response.data);
+        await PrefHelper().setString(PrefHelper.USER_ID, response.data['_id']);
+        await PrefHelper().setString(PrefHelper.USER_NAME, response.data['name']);
         isLoggedIn();
         Navigator.of(Get.context!).pop();
         Utils.showToaster(response.message, Get.context!);

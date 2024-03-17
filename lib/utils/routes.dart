@@ -27,13 +27,15 @@ class AppRoutes{
       page: () => const DetailsView(),
       bindings: [
         DetailsBinding(),
+        DashBoardBinding(),
       ]
     ),
     GetPage(
       name: upload,
-      page: () => const UploadView(),
+      page: () => UploadView(),
       bindings: [
         UploadBinding(),
+        DashBoardBinding(),
       ]
     ),
   ];

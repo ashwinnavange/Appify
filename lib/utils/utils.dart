@@ -7,6 +7,11 @@ class Utils {
     return userId;
   }
 
+  static String getUserName() {
+    String username = PrefHelper().getString(PrefHelper.USER_NAME);
+    return username;
+  }
+
   static void showToaster(String message, BuildContext context) {
     final snackBar = SnackBar(
       content: Text(message),
