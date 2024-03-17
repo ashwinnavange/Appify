@@ -6,6 +6,13 @@ class Utils {
     String userId = PrefHelper().getString(PrefHelper.USER_ID);
     return userId;
   }
+
+  static void showToaster(String message, BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
 
 extension MySizedBox on num {

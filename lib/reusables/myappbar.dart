@@ -1,4 +1,5 @@
 // ignore: must_be_immutable
+import 'package:appify/presentation/dashboard/controller/dashboard_controller.dart';
 import 'package:appify/utils/helper.dart';
 import 'package:appify/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +11,9 @@ import '../utils/screen_size.dart';
 import 'custom_text_button.dart';
 
 // ignore: must_be_immutable
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MyAppBar extends GetWidget<DashBoardController>
+    implements PreferredSizeWidget {
   bool isSignUp = false;
-  String email = '';
-  String password = '';
-  String confirmPassword = '';
 
   MyAppBar({super.key});
 
@@ -31,7 +30,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   double height = MediaQuery.of(context).size.height;
                   double width = MediaQuery.of(context).size.width;
                   return SizedBox(
-                    height: height * 0.2,
+                    height: isSignUp ? height * 0.3 : height * 0.2,
                     width: width * 0.4,
                     child: isSignUp ? _showSignUpDialog() : _showLoginDialog(),
                   );
@@ -40,10 +39,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               actions: <Widget>[
                 TextButton(
                   onPressed: () async {
-                    await PrefHelper().setString(PrefHelper.USER_ID,'123');
-                    setState(() {
-                    });
-                    Navigator.of(context).pop();
+                    isSignUp
+                        ? await controller.registerUser()
+                        : await controller.loginUser();
                   },
                   child: isSignUp ? const Text('Sign Up') : const Text('Login'),
                 ),
@@ -65,22 +63,20 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Column(
       children: <Widget>[
         TextField(
-          onChanged: (value) {
-            email = value;
-          },
+          controller: controller.nameController,
+          decoration: const InputDecoration(labelText: 'Name'),
+        ),
+        TextField(
+          controller: controller.emailController,
           decoration: const InputDecoration(labelText: 'Email'),
         ),
         TextField(
-          onChanged: (value) {
-            password = value;
-          },
+          controller: controller.passwordController,
           decoration: const InputDecoration(labelText: 'Password'),
           obscureText: true,
         ),
         TextField(
-          onChanged: (value) {
-            confirmPassword = value;
-          },
+          controller: controller.confirmPasswordController,
           decoration: const InputDecoration(labelText: 'Confirm Password'),
           obscureText: true,
         ),
@@ -92,15 +88,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Column(
       children: <Widget>[
         TextField(
-          onChanged: (value) {
-            email = value;
-          },
+          controller: controller.emailController,
           decoration: const InputDecoration(labelText: 'Email'),
         ),
         TextField(
-          onChanged: (value) {
-            password = value;
-          },
+          controller: controller.passwordController,
           decoration: const InputDecoration(labelText: 'Password'),
           obscureText: true,
         ),
@@ -168,7 +160,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           navLogo(),
           const Spacer(),
-          Utils.getUserId() == '' ? navButtons(context) : navUser(context),
+          Obx(
+            () => controller.isLoggedin.isFalse
+                ? navButtons(context)
+                : navUser(context),
+          )
         ],
       ),
     );
@@ -231,7 +227,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget navUser(context) {
     return InkWell(
       onTap: () {
-
+        PrefHelper().removeCache();
+        controller.isLoggedIn();
       },
       child: const CircleAvatar(
         radius: 20,
@@ -252,7 +249,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           backgroundColor: Colors.white,
           textColor: Colors.black,
           onPressed: () {
-            _showMyDialog(context,false);
+            _showMyDialog(context, false);
           },
           width: 100,
         ),
@@ -262,11 +259,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           backgroundColor: Colors.black,
           textColor: Colors.white,
           onPressed: () {
-            _showMyDialog(context,true);
+            _showMyDialog(context, true);
           },
           width: 100,
         ),
-
       ],
     );
   }
