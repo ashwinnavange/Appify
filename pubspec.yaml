@@ -39,6 +39,7 @@ dependencies:
   get:
   shared_preferences:
   responsive_builder:
+  file_picker:
 
 dev_dependencies:
   flutter_test:

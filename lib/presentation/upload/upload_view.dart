@@ -1,10 +1,10 @@
-import 'package:appify/presentation/upload/widget/upload_section.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../reusables/myappbar.dart';
 import '../../reusables/unauthorized_view.dart';
 import '../dashboard/controller/dashboard_controller.dart';
 import 'controller/upload_controller.dart';
+import 'widget/upload_section.dart';
 
 class UploadView extends GetWidget<UploadController> {
   UploadView({super.key});
@@ -17,7 +17,7 @@ class UploadView extends GetWidget<UploadController> {
       appBar: MyAppBar(),
       body: SingleChildScrollView(
         child: Obx(() => _dashBoardController.isLoggedin.isTrue
-            ? const UploadSection()
+            ? UploadSection()
             : const UnAuthorizedView()),
       ),
     );
