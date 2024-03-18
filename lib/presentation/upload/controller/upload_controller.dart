@@ -95,15 +95,16 @@ class UploadController extends GetxController {
         Utils.showToaster("Please upload required files", Get.context!);
         return;
       }
+      List<String> categories = categoryController.text.split(",");
       final uploadApp = await _uploadService.postApp(
         logo: logoFile,
         appName: titleController.text.trim(),
         description: descriptionController.text.trim(),
         shortDescription: shortDescriptionController.text.trim(),
-        categories: categoryController.text.trim().split(','),
+        categories: categories,
         whatsNew: whatsNewController.text.trim(),
         packageName: packageNameController.text.trim(),
-        appFile: apkFile!,
+        appFile: apkFile,
         developerName: Utils.getUserName(),
         type: "Free",
         userId: Utils.getUserId(),

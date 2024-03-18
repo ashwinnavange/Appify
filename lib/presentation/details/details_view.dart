@@ -1,11 +1,9 @@
 import 'package:appify/reusables/myappbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'controller/details_controller.dart';
 import 'widget/description_section.dart';
 import 'widget/header_section.dart';
-import 'widget/ratings_section.dart';
 
 class DetailsView extends GetWidget<DetailsController> {
   const DetailsView({super.key});
@@ -14,11 +12,11 @@ class DetailsView extends GetWidget<DetailsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
-            const HeaderSection(),
-            const DescriptionSection(),
+            HeaderSection(),
+            DescriptionSection(),
             //const RatingSection(),
           ],
         ),
