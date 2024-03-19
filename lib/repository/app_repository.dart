@@ -2,6 +2,7 @@ import 'dart:convert';
 import '../data/network_service/base_api_services.dart';
 import '../data/network_service/network_api_services.dart';
 import 'package:http/http.dart' as http;
+import '../model/app_model.dart';
 import '../res/app_url.dart';
 
 class AppRespository {
@@ -20,10 +21,41 @@ class AppRespository {
 
   Future<dynamic> getAllApps() async {
     try {
-      dynamic response = await _apiServices.get(AppUrl.postAppUrl);
-      return response;
+      dynamic response = await _apiServices.get(AppUrl.getAppsUrl);
+      if(response!=null){
+        response = AppList.fromMap(response);
+        return response;
+      }
     } catch (e) {
+      print(e);
       rethrow;
     }
   }
+
+  Future<dynamic> getAllGames() async {
+    try {
+      dynamic response = await _apiServices.get(AppUrl.getAllGames);
+      if(response!=null){
+        response = AppList.fromMap(response);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<dynamic> getAppDetails(String packageName) async {
+    try {
+      dynamic response = await _apiServices.get(AppUrl.getAppDetails(packageName));
+      if(response!=null){
+        response = App.fromMap(response);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
 }

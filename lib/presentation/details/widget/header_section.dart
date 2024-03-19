@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:appify/utils/screen_size.dart';
+import 'package:appify/utils/theme.dart';
 import 'package:appify/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +34,9 @@ class HeaderSection extends GetWidget<DetailsController> {
             title: 'Install',
             backgroundColor: Colors.black,
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              controller.downloadAPK(controller.app!.value.appFile!);
+            },
             width: double.infinity,
           ),
           20.ph,
@@ -42,14 +47,14 @@ class HeaderSection extends GetWidget<DetailsController> {
   }
 
   Widget DesktopHeaderSection(BuildContext context) {
-    return Container(
-      color: const Color.fromARGB(255, 250, 250, 249),
-      padding:
-          EdgeInsets.symmetric(horizontal: ScreenSize.w * 0.1, vertical: 20),
-      height: ScreenSize.w >= 1280 ? ScreenSize.h * 0.6 : ScreenSize.h * 0.8,
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        Container(
+          color: const Color.fromARGB(255, 250, 250, 249),
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenSize.w * 0.1, vertical: 20),
+          //height: ScreenSize.w >= 1280 ? ScreenSize.h * 0.65 : ScreenSize.h * 0.8,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               App(),
@@ -60,14 +65,23 @@ class HeaderSection extends GetWidget<DetailsController> {
                       title: 'Install',
                       backgroundColor: Colors.black,
                       textColor: Colors.white,
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.downloadAPK(controller.app!.value.appFile!);
+                      },
                       width: ScreenSize.w * 0.2,
                     ),
             ],
           ),
-          ScreenSize.w >= 1280 ? Container() : Expanded(child: Photos()),
-        ],
-      ),
+        ),
+        ScreenSize.w >= 1280
+            ? Container()
+            : Container(
+                color: const Color.fromARGB(255, 250, 250, 249),
+                padding: EdgeInsets.symmetric(
+                    horizontal: ScreenSize.w * 0.1, vertical: 20),
+                //height: ScreenSize.w >= 1280 ? ScreenSize.h * 0.65 : ScreenSize.h * 0.8,
+                child: Photos()),
+      ],
     );
   }
 
@@ -96,7 +110,7 @@ class HeaderSection extends GetWidget<DetailsController> {
                 child: SizedBox.fromSize(
                   size: const Size.fromRadius(50), // Image radius
                   child: Image.network(
-                    'https://cdn.shopify.com/app-store/listing_images/ca1f1238d808935b77771b399df6e9ab/icon/CLe6nrP0lu8CEAE=.png',
+                    controller.app!.value.logo ?? '',
                     fit: BoxFit.cover,
                     height: 150,
                     width: 150,
@@ -105,31 +119,57 @@ class HeaderSection extends GetWidget<DetailsController> {
               ),
             ),
             20.pw,
-            const Text('Ashwin')
+            Container(
+                width: ScreenSize.w >= 1280
+                    ? ScreenSize.w * 0.18
+                    : ScreenSize.w >= 950
+                        ? ScreenSize.w * 0.37
+                        : ScreenSize.w * 0.55,
+                child: Text(
+                  controller.app!.value.appName ?? 'N/A',
+                  style: CustomTextStyle.heading2(fontSize: 24),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ))
           ],
         ),
         20.ph,
-        const Text(
-          'Free to install. Additional charges may apply.',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+        Container(
+          width: ScreenSize.w >= 1280
+              ? ScreenSize.w * 0.25
+              : ScreenSize.w >= 950
+                  ? ScreenSize.w * 0.5
+                  : ScreenSize.w,
+          child: Text(
+            controller.app!.value.shortDescription ?? 'N/A',
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: CustomTextStyle.heading2(fontSize: 20),
+          ),
         ),
         20.ph,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Column(
+            Column(
               children: [
-                Text('Rating'),
+                Text('Rating',
+                    style: CustomTextStyle.heading3(
+                        fontSize: 15, fontWeight: FontWeight.w500)),
                 Row(
                   children: [
-                    Text('4.8'),
+                    Text(
+                      controller.app!.value.rating.toString(),
+                      style: CustomTextStyle.heading3(
+                          fontSize: 16, fontWeight: FontWeight.w800),
+                    ),
+                    2.pw,
                     Icon(Icons.star),
                   ],
                 ),
               ],
             ),
-            10.pw,
+            15.pw,
             Container(
               height: 50,
               child: const VerticalDivider(
@@ -137,14 +177,22 @@ class HeaderSection extends GetWidget<DetailsController> {
                 width: 1,
               ),
             ),
-            10.pw,
-            const Column(
+            15.pw,
+            Column(
               children: [
-                Text('Reviews'),
-                Text('1000'),
+                Text(
+                  'Downloads',
+                  style: CustomTextStyle.heading3(
+                      fontSize: 15, fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  controller.app!.value.totalDownloads.toString(),
+                  style: CustomTextStyle.heading3(
+                      fontSize: 16, fontWeight: FontWeight.w800),
+                ),
               ],
             ),
-            10.pw,
+            15.pw,
             Container(
               height: 50,
               child: const VerticalDivider(
@@ -152,11 +200,19 @@ class HeaderSection extends GetWidget<DetailsController> {
                 width: 1,
               ),
             ),
-            10.pw,
-            const Column(
+            15.pw,
+            Column(
               children: [
-                Text('Developer'),
-                Text('Ashwin Navange'),
+                Text(
+                  'Developer',
+                  style: CustomTextStyle.heading3(
+                      fontSize: 15, fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  controller.app!.value.developerName ?? 'N/A',
+                  style: CustomTextStyle.heading3(
+                      fontSize: 16, fontWeight: FontWeight.w800),
+                ),
               ],
             ),
           ],
@@ -167,8 +223,10 @@ class HeaderSection extends GetWidget<DetailsController> {
                 title: 'Install',
                 backgroundColor: Colors.black,
                 textColor: Colors.white,
-                onPressed: () {},
-                width: ScreenSize.w * 0.2,
+                onPressed: () {
+                  controller.downloadAPK(controller.app!.value.appFile!);
+                },
+                width: ScreenSize.w * 0.22,
               )
             : Container(),
       ],
@@ -180,14 +238,14 @@ class HeaderSection extends GetWidget<DetailsController> {
       height: 450,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 4,
+        itemCount: min(4, controller.app!.value.photos!.length),
         shrinkWrap: true,
-        padding: EdgeInsets.symmetric(vertical:  16),
+        padding: EdgeInsets.symmetric(vertical: 16),
         itemBuilder: (BuildContext context, int index) {
           return Container(
             margin: const EdgeInsets.only(right: 10),
             child: Image.network(
-                'https://play-lh.googleusercontent.com/tNuMAclO_TrRn5RbiSo2iU2ySljFaHjCIWoMUSoemUcl4FjTyVO0PpJZL_zTrYf7v_4=w2560-h1440-rw'),
+                controller.app!.value.photos![index],),
           );
         },
       ),

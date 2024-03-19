@@ -12,7 +12,7 @@ class UploadService {
     required String appName,
     required String description,
     required String shortDescription,
-    required List<String> categories,
+    required String categories,
     required String whatsNew,
     required String packageName,
     required Uint8List appFile,
@@ -22,6 +22,7 @@ class UploadService {
     required num rating,
     required List<Uint8List> photos,
     required num totalDownloads,
+    required String version,
   }) async {
     try {
       var logoStream = Stream.value(logo);
@@ -34,7 +35,7 @@ class UploadService {
       request.fields['appName'] = appName;
       request.fields['description'] = description;
       request.fields['shortDescription'] = shortDescription;
-      request.fields['categories'] = categories.join(', ');
+      request.fields['categories'] = categories;
       request.fields['whatsNew'] = whatsNew;
       request.fields['packageName'] = packageName;
       request.fields['developerName'] = developerName;
@@ -42,6 +43,7 @@ class UploadService {
       request.fields['userId'] = userId;
       request.fields['rating'] = rating.toString();
       request.fields['totalDownloads'] = totalDownloads.toString();
+      request.fields['version'] = version;
 
       request.files.add(http.MultipartFile(
         'logo',

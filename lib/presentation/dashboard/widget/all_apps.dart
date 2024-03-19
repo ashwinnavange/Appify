@@ -1,18 +1,16 @@
+import 'package:appify/presentation/dashboard/widget/no_apps.dart';
 import 'package:appify/utils/routes.dart';
+import 'package:appify/utils/theme.dart';
 import 'package:appify/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import '../../../utils/screen_size.dart';
+import '../controller/dashboard_controller.dart';
 
-class AllApps extends StatefulWidget {
+class AllApps extends GetWidget<DashBoardController> {
   const AllApps({super.key});
 
-  @override
-  State<AllApps> createState() => _AllAppsState();
-}
-
-class _AllAppsState extends State<AllApps> {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout.builder(
@@ -57,11 +55,11 @@ class _AllAppsState extends State<AllApps> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "  All Apps",
-              style: TextStyle(fontSize: 20),
+              " All Apps",
+              style: CustomTextStyle.heading1(),
             ),
           ),
           20.ph,
@@ -75,18 +73,21 @@ class _AllAppsState extends State<AllApps> {
   Widget HorizontalScroll() {
     return SizedBox(
       height: ScreenSize.h * 0.32,
-      child: ListView.builder(
+      child: Obx(()=> controller.isLoading.value ? Utils.getLoader() :
+      
+      controller.apps!.isEmpty ? const NoAppsAvailable() :
+      ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 100,
+        itemCount: controller.apps!.length,
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             onTap: () {
-              Get.toNamed(AppRoutes.details);
+              Get.toNamed(AppRoutes.details, arguments: controller.apps![index].packageName);
             },
             child: AppCard(context, index),
           );
         },
-      ),
+      ),)
     );
   }
 
@@ -116,11 +117,18 @@ class _AllAppsState extends State<AllApps> {
                     ),
                   ],
                 ),
+                child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox.fromSize(
+                //size: Size.fromRadius(ScreenSize.h * 0.10), // Image radius
                 child: Image.network(
-                  'https://play-lh.googleusercontent.com/ZI21NMObsjB7DbPU_EXRymHJL3HQpfsrB2N4CWb-diXm4xjl_13mmetYQZvcpgGf-64=s256-rw',
-                  width: ScreenSize.h * 0.19,
+                  controller.apps![index].logo!,
+                  fit: BoxFit.cover,
                   height: ScreenSize.h * 0.19,
+                  width: ScreenSize.h * 0.19,
                 ),
+              ),
+            ),
               ),
               20.ph,
               Column(
@@ -128,14 +136,16 @@ class _AllAppsState extends State<AllApps> {
                   Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'App $index ',
+                        controller.apps![index].appName!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
+                        style: CustomTextStyle.heading2(),
                       )),
-                  const Row(
+                  Row(
                     children: [
-                      Icon(Icons.star),
-                      Text('4.5'),
+                      Icon(Icons.star, color: Colors.green,size: ScreenSize.h * 0.015,),
+                      2.pw,
+                      Text(controller.apps![index].rating!.toString(),style: CustomTextStyle.heading3()),
                     ],
                   ),
                 ],

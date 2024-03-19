@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:appify/utils/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../utils/screen_size.dart';
+import '../../../utils/theme.dart';
 import '../controller/details_controller.dart';
 
 class DescriptionSection extends GetWidget<DetailsController> {
@@ -26,7 +30,7 @@ class DescriptionSection extends GetWidget<DetailsController> {
         children: [
           DescriptionWidget(),
           30.ph,
-          HighlightAndAbout(),          
+          HighlightAndAbout(),
         ],
       ),
     );
@@ -35,13 +39,13 @@ class DescriptionSection extends GetWidget<DetailsController> {
   Widget DesktopDescriptionSection(context) {
     return Container(
       padding:
-          EdgeInsets.symmetric(horizontal: ScreenSize.w * 0.1, vertical: 20),
-      height: ScreenSize.h * 0.6,
+          EdgeInsets.symmetric(horizontal: ScreenSize.w * 0.1, vertical: 50),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           HighlightAndAbout(),
-          130.pw,
+          (ScreenSize.w * 0.125).pw,
           Expanded(child: DescriptionWidget()),
         ],
       ),
@@ -53,30 +57,67 @@ class DescriptionSection extends GetWidget<DetailsController> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Highlights'),
+        Text(
+          'Highlights',
+          style: CustomTextStyle.heading1(fontSize: 20),
+        ),
         10.ph,
         HighlightCard(Icons.check, 'Built for your business',
-            'Use directly in Shopify admin'),
+            'Download Now and get started!'),
         10.ph,
         HighlightCard(Icons.check, 'Built for your business',
-            'Use directly in Shopify admin'),
+            'Download Now and get started!'),
         30.ph,
-        Text('About this app'),
+        Text(
+          'About this app',
+          style: CustomTextStyle.heading1(fontSize: 20),
+        ),
         10.ph,
-        Text('Launched'),
+        Text(
+          'Launched',
+          style: CustomTextStyle.heading3(
+              fontSize: 16, fontWeight: FontWeight.w800),
+        ),
+        4.ph,
+        Text(controller.app!.value.createdAt ?? 'N/A',
+            style: CustomTextStyle.heading3(
+                fontSize: 15, fontWeight: FontWeight.w500)),
         10.ph,
-        Text('October 14, 2020'),
-        15.ph,
-        Text('Categories'),
+        Text(
+          'Package Name',
+          style: CustomTextStyle.heading3(
+              fontSize: 16, fontWeight: FontWeight.w800),
+        ),
+        4.ph,
+        Text(controller.app!.value.packageName ?? 'N/A',
+            style: CustomTextStyle.heading3(
+                fontSize: 15, fontWeight: FontWeight.w500)),
+        10.ph,
+        Text(
+          'Version',
+          style: CustomTextStyle.heading3(
+              fontSize: 16, fontWeight: FontWeight.w800),
+        ),
+        4.ph,
+        Text(controller.app!.value.version ?? 'N/A',
+            style: CustomTextStyle.heading3(
+                fontSize: 15, fontWeight: FontWeight.w500)),
+        30.ph,
+        Text(
+          'Categories',
+          style: CustomTextStyle.heading1(fontSize: 20),
+        ),
         10.ph,
         Container(
           width: 100,
           height: 70,
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: 3,
+            itemCount: min(3, controller.app!.value.categories!.length),
             itemBuilder: (context, index) {
-              return Text('Category $index');
+              return Text(controller.app!.value.categories![index],
+                  style: CustomTextStyle.heading3(
+                      fontSize: 16, fontWeight: FontWeight.w800));
             },
           ),
         )
@@ -86,11 +127,25 @@ class DescriptionSection extends GetWidget<DetailsController> {
 
   Widget HighlightCard(IconData icon, String title, String desc) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Icon(icon),
         10.pw,
         Column(
-          children: [Text(title), Text(desc)],
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: CustomTextStyle.heading3(
+                  fontSize: 16, fontWeight: FontWeight.w800),
+            ),
+            Text(
+              desc,
+              style: CustomTextStyle.heading3(
+                  fontSize: 15, fontWeight: FontWeight.w500),
+            )
+          ],
         )
       ],
     );
@@ -98,17 +153,38 @@ class DescriptionSection extends GetWidget<DetailsController> {
 
   Widget DescriptionWidget() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      Align(child: Text('Description'),alignment: Alignment.centerLeft,),
+      Align(
+        child: Text(
+          'Description',
+          style: CustomTextStyle.heading1(fontSize: 20),
+        ),
+        alignment: Alignment.centerLeft,
+      ),
       15.ph,
       Text(
-          'The TikTok App on Shopify makes it easy to get your business in front of billions of highly engaged consumers. These users arent just browsing — theyre buying; as referenced by the popular hashtag #TikTokMadeMeBuyIt. And they could become your next customer. With the TikTok App, you can effortlessly create TikTok ad campaigns, sync your product catalog, and sell products through in-feed videos and LIVE broadcasts on TikTok Shop.', maxLines: 20,overflow: TextOverflow.ellipsis,),
+        controller.app!.value.description ?? 'N/A',
+        maxLines: 20,
+        overflow: TextOverflow.ellipsis,
+        style:
+            CustomTextStyle.heading3(fontSize: 18, fontWeight: FontWeight.w500),
+      ),
       30.ph,
-      Align(child: Text('What\'s New'),alignment: Alignment.centerLeft,),
+      Align(
+        child: Text(
+          'What\'s New',
+          style: CustomTextStyle.heading1(fontSize: 20),
+        ),
+        alignment: Alignment.centerLeft,
+      ),
       15.ph,
-      Text('▶ Addition of a new Teammate [Shattered Pride] Vicente \n ▶ Addition of a new Other Story \n ▶ White Day Celebration Check-in Event \n - White Day Celebration One-Fifth Matchers Event')
+      Align(
+        child: Text(controller.app!.value.whatsNew ?? 'N/A',
+            style: CustomTextStyle.heading3(
+                fontSize: 18, fontWeight: FontWeight.w500)),
+        alignment: Alignment.centerLeft,
+      ),
     ]);
   }
 }

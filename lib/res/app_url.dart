@@ -11,7 +11,13 @@ class AppUrl{
 
   static const postAppUrl = '$baseUrl/apps';
 
+  static const getAllGames = '$baseUrl/games';
+
   static String getUser(String id) {
     return '$baseUrl/user/$id';
+  }
+
+  static String getAppDetails(String packageName) {
+    return '$baseUrl/apps/$packageName';
   }
 }

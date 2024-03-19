@@ -3,6 +3,7 @@ import 'package:appify/reusables/myappbar.dart';
 import 'package:appify/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../reusables/footer.dart';
 import '../../utils/screen_size.dart';
 import 'controller/dashboard_controller.dart';
 import 'widget/all_apps.dart';
@@ -20,9 +21,12 @@ class DashBoardView extends GetWidget<DashBoardController> {
             children: [
               const ImageSection(),
               //TopCharts(),
+              40.ph,
               const AllApps(),
               20.ph,
               const AllGames(),
+              30.ph,
+              const FooterView(),
             ],
           ),
         ),);

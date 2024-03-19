@@ -18,6 +18,7 @@ class UploadController extends GetxController {
   TextEditingController categoryController = TextEditingController();
   TextEditingController whatsNewController = TextEditingController();
   TextEditingController packageNameController = TextEditingController();
+  TextEditingController versionController = TextEditingController();
 
   Uint8List? apkFile;
   Uint8List? screenshotFile;
@@ -40,6 +41,7 @@ class UploadController extends GetxController {
     categoryController.dispose();
     whatsNewController.dispose();
     packageNameController.dispose();
+    versionController.dispose();
     super.onClose();
   }
 
@@ -95,13 +97,12 @@ class UploadController extends GetxController {
         Utils.showToaster("Please upload required files", Get.context!);
         return;
       }
-      List<String> categories = categoryController.text.split(",");
       final uploadApp = await _uploadService.postApp(
         logo: logoFile,
         appName: titleController.text.trim(),
         description: descriptionController.text.trim(),
         shortDescription: shortDescriptionController.text.trim(),
-        categories: categories,
+        categories: categoryController.text.trim(),
         whatsNew: whatsNewController.text.trim(),
         packageName: packageNameController.text.trim(),
         appFile: apkFile,
@@ -111,6 +112,7 @@ class UploadController extends GetxController {
         rating: 0,
         photos: screenshotFile,
         totalDownloads: 0,
+        version: versionController.text.trim(),
       );
       if (uploadApp.status) {
         Utils.showToaster(uploadApp.message, Get.context!);

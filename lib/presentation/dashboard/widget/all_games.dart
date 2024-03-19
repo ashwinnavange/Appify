@@ -1,16 +1,15 @@
 import 'package:appify/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import '../../../utils/screen_size.dart';
+import '../../../utils/theme.dart';
+import '../controller/dashboard_controller.dart';
+import 'no_apps.dart';
 
-class AllGames extends StatefulWidget {
+class AllGames extends GetWidget<DashBoardController> {
   const AllGames({super.key});
 
-  @override
-  State<AllGames> createState() => _AllGamesState();
-}
-
-class _AllGamesState extends State<AllGames> {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout.builder(
@@ -30,11 +29,11 @@ class _AllGamesState extends State<AllGames> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
             child: Text(
               "  All Games",
-              style: TextStyle(fontSize: 20),
+              style: CustomTextStyle.heading1(),
             ),
           ),
           20.ph,
@@ -55,11 +54,11 @@ class _AllGamesState extends State<AllGames> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
             child: Text(
               "  All Games",
-              style: TextStyle(fontSize: 20),
+              style: CustomTextStyle.heading1(),
             ),
           ),
           20.ph,
@@ -73,15 +72,19 @@ class _AllGamesState extends State<AllGames> {
   Widget HorizontalScroll() {
     return SizedBox(
       height: ScreenSize.h * 0.32,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 100,
-        itemBuilder: (BuildContext context, int index) {
-          return InkWell(
-            onTap: () {},
-            child: GameCard(context, index),
-          );
-        },
+      child: Obx(
+        () => controller.isLoading.value ? Utils.getLoader() : controller.games!.isEmpty
+            ? const NoAppsAvailable()
+            : ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.games!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {},
+                    child: GameCard(context, index),
+                  );
+                },
+              ),
       ),
     );
   }
@@ -113,7 +116,7 @@ class _AllGamesState extends State<AllGames> {
                   ],
                 ),
                 child: Image.network(
-                  'https://play-lh.googleusercontent.com/ZI21NMObsjB7DbPU_EXRymHJL3HQpfsrB2N4CWb-diXm4xjl_13mmetYQZvcpgGf-64=s256-rw',
+                  '${controller.games![index].logo}.png',
                   width: ScreenSize.h * 0.19,
                   height: ScreenSize.h * 0.19,
                 ),
@@ -122,16 +125,22 @@ class _AllGamesState extends State<AllGames> {
               Column(
                 children: [
                   Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'App $index ',
+                    alignment: Alignment.centerLeft,
+                    child: Text(controller.games![index].appName!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                      )),
-                  const Row(
+                        style: CustomTextStyle.heading2()),
+                  ),
+                  Row(
                     children: [
-                      Icon(Icons.star),
-                      Text('4.5'),
+                      Icon(
+                        Icons.star,
+                        color: Colors.green,
+                        size: ScreenSize.h * 0.015,
+                      ),
+                      2.pw,
+                      Text(controller.games![index].rating.toString(),
+                          style: CustomTextStyle.heading3()),
                     ],
                   ),
                 ],

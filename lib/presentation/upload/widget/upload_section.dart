@@ -15,6 +15,7 @@ class UploadSection extends GetWidget<UploadController> {
   Uint8List? apkFile = Uint8List(00);
   List<Uint8List>? screenshotFile = [];
   Uint8List? logoFile = Uint8List(0);
+  String type = 'App';
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +86,22 @@ class UploadSection extends GetWidget<UploadController> {
           CustomTextField("What's New", controller.whatsNewController,
               ScreenSize.w, true, 5),
           20.ph,
+          Container(
+            width: ScreenSize.w,
+            child: DropdownButton<String>(
+              value: 'App',
+              onChanged: (String? newValue) {
+                type = newValue!;
+              },
+              items: <String>['App', 'Game'] // Dropdown items
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),),
+          ),
+          20.ph,
           CustomTextField("Category (List Max 3 Seperated by comma)",
               controller.categoryController, ScreenSize.w, false, 1),
           20.ph,
@@ -102,11 +119,10 @@ class UploadSection extends GetWidget<UploadController> {
             children: [
               UploadFiles(
                 ScreenSize.w * 0.2,
-                ScreenSize.w * 0.1,
+                ScreenSize.h * 0.27,
                 "Upload Logo",
                 () async {
-                  Uint8List? result =
-                      await controller.getFile(["jpg", "png"]);
+                  Uint8List? result = await controller.getFile(["jpg", "png"]);
                   if (result != null) {
                     logoFile = result;
                     Utils.showToaster("File Uploaded!", Get.context!);
@@ -128,6 +144,9 @@ class UploadSection extends GetWidget<UploadController> {
                         ScreenSize.w * 0.55,
                         false,
                         1),
+                    20.ph,
+                    CustomTextField("Version", controller.versionController,
+                        ScreenSize.w * 0.55, false, 1),
                   ],
                 ),
               ),
@@ -140,8 +159,7 @@ class UploadSection extends GetWidget<UploadController> {
                 ScreenSize.w * 0.2,
                 "Upload Logo",
                 () async {
-                  Uint8List? result =
-                      await controller.getFile(["jpg", "png"]);
+                  Uint8List? result = await controller.getFile(["jpg", "png"]);
                   if (result != null) {
                     logoFile = result;
                     Utils.showToaster("File Uploaded!", Get.context!);
@@ -156,6 +174,9 @@ class UploadSection extends GetWidget<UploadController> {
               20.ph,
               CustomTextField("Package Name", controller.packageNameController,
                   ScreenSize.w, false, 1),
+              20.ph,
+              CustomTextField("Version", controller.versionController,
+                  ScreenSize.w * 0.55, false, 1),
             ],
           );
   }

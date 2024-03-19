@@ -1,6 +1,6 @@
 {
-    "name": "appify",
-    "short_name": "appify",
+    "name": "Appify",
+    "short_name": "Appify",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

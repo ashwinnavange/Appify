@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
-        fontFamily: 'Inter',
+        fontFamily: 'Inter-SemiBold',
       ),
     );
   }

@@ -17,88 +17,7 @@ class MyAppBar extends GetWidget<DashBoardController>
 
   MyAppBar({super.key});
 
-  Future<void> _showMyDialog(BuildContext context, bool isSignUp) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: !isSignUp ? Text('Log in') : Text('Sign Up'),
-              content: Builder(
-                builder: (context) {
-                  double height = MediaQuery.of(context).size.height;
-                  double width = MediaQuery.of(context).size.width;
-                  return SizedBox(
-                    height: isSignUp ? height * 0.3 : height * 0.2,
-                    width: width * 0.4,
-                    child: isSignUp ? _showSignUpDialog() : _showLoginDialog(),
-                  );
-                },
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () async {
-                    isSignUp
-                        ? await controller.registerUser()
-                        : await controller.loginUser();
-                  },
-                  child: isSignUp ? const Text('Sign Up') : const Text('Login'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cancel'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _showSignUpDialog() {
-    return Column(
-      children: <Widget>[
-        TextField(
-          controller: controller.nameController,
-          decoration: const InputDecoration(labelText: 'Name'),
-        ),
-        TextField(
-          controller: controller.emailController,
-          decoration: const InputDecoration(labelText: 'Email'),
-        ),
-        TextField(
-          controller: controller.passwordController,
-          decoration: const InputDecoration(labelText: 'Password'),
-          obscureText: true,
-        ),
-        TextField(
-          controller: controller.confirmPasswordController,
-          decoration: const InputDecoration(labelText: 'Confirm Password'),
-          obscureText: true,
-        ),
-      ],
-    );
-  }
-
-  Widget _showLoginDialog() {
-    return Column(
-      children: <Widget>[
-        TextField(
-          controller: controller.emailController,
-          decoration: const InputDecoration(labelText: 'Email'),
-        ),
-        TextField(
-          controller: controller.passwordController,
-          decoration: const InputDecoration(labelText: 'Password'),
-          obscureText: true,
-        ),
-      ],
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +50,11 @@ class MyAppBar extends GetWidget<DashBoardController>
         children: [
           navLogo(),
           const Spacer(),
-          Utils.getUserId() == '' ? navButtons(context) : navUser(context),
+          Obx(
+            () => controller.isLoggedin.isFalse
+                ? navButtons(context)
+                : navUser(context),
+          )
         ],
       ),
     );
@@ -177,16 +100,12 @@ class MyAppBar extends GetWidget<DashBoardController>
       },
       child: Row(
         children: [
-          Image.asset(
-            'logo/logo.png',
-            height: 40,
-            width: 40,
-          ),
+          Icon(Icons.redeem_sharp, size: 40, color: Colors.black),
           10.pw,
           const Text(
             'Appify',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 26,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -216,7 +135,7 @@ class MyAppBar extends GetWidget<DashBoardController>
             Container(
               height: 3,
               width: 40,
-              color: Color.fromARGB(255, 16, 134, 20),
+              color: const Color.fromARGB(255, 16, 134, 20),
             )
           ],
         ),
@@ -226,15 +145,15 @@ class MyAppBar extends GetWidget<DashBoardController>
 
   Widget navUser(context) {
     return PopupMenuButton<int>(
-      offset: Offset(0, 60),
+      offset: const Offset(0, 60),
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 0,
-          child: Center(child: Text('Welcome, ${Utils.getUserName()}!')),
           enabled: false,
+          child: Center(child: Text('Welcome, ${Utils.getUserName()}!')),
         ),
         const PopupMenuDivider(),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: 1,
           child: Row(
             children: [
@@ -244,7 +163,7 @@ class MyAppBar extends GetWidget<DashBoardController>
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: 2,
           child: Row(
             children: [
@@ -264,7 +183,7 @@ class MyAppBar extends GetWidget<DashBoardController>
           controller.isLoggedIn();
         }
       },
-      child: CircleAvatar(
+      child: const CircleAvatar(
         radius: 20,
         backgroundColor: Color(0xFFEEEEEE),
         child: Icon(
@@ -276,14 +195,14 @@ class MyAppBar extends GetWidget<DashBoardController>
   }
 
   Widget navButtons(BuildContext context) {
-    return Row(
+    return ScreenSize.w > 425 ? Row(
       children: [
         CommonButton(
           title: 'Log in',
           backgroundColor: Colors.white,
           textColor: Colors.black,
           onPressed: () {
-            _showMyDialog(context, false);
+            controller.showMyDialog(context, false);
           },
           width: 100,
         ),
@@ -293,11 +212,52 @@ class MyAppBar extends GetWidget<DashBoardController>
           backgroundColor: Colors.black,
           textColor: Colors.white,
           onPressed: () {
-            _showMyDialog(context, true);
+            controller.showMyDialog(context, true);
           },
           width: 100,
         ),
       ],
+    ) : PopupMenuButton<int>(
+      offset: const Offset(0, 60),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 1,
+          child: Center(
+            child: CommonButton(
+            title: 'Log in',
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            onPressed: () {
+              controller.showMyDialog(context, false);
+            },
+            width: 100,
+                    ),
+          ),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem(
+          value: 2,
+          child: Center(
+            child: CommonButton(
+            title: 'Sign up',
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            onPressed: () {
+              controller.showMyDialog(context, true);
+            },
+            width: 100,
+                    ),
+          ),
+        ),
+      ],
+      child: const CircleAvatar(
+        radius: 20,
+        backgroundColor: Color(0xFFEEEEEE),
+        child: Icon(
+          Icons.menu,
+          size: 30,
+        ),
+      ),
     );
   }
 

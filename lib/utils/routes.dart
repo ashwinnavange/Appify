@@ -24,7 +24,7 @@ class AppRoutes{
     ),
     GetPage(
       name: details,
-      page: () => const DetailsView(),
+      page: () => DetailsView(),
       bindings: [
         DetailsBinding(),
         DashBoardBinding(),
