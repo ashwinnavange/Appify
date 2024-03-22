@@ -62,10 +62,10 @@ class DescriptionSection extends GetWidget<DetailsController> {
           style: CustomTextStyle.heading1(fontSize: 20),
         ),
         10.ph,
-        HighlightCard(Icons.check, 'Built for your business',
-            'Download Now and get started!'),
+        HighlightCard(Icons.check, 'Made with Flutter',
+            ''),
         10.ph,
-        HighlightCard(Icons.check, 'Built for your business',
+        HighlightCard(Icons.public, 'Built for the world',
             'Download Now and get started!'),
         30.ph,
         Text(

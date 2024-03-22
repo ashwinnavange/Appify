@@ -1,8 +1,6 @@
-import 'dart:html';
-
 import 'package:appify/utils/helper.dart';
-import 'package:appify/utils/screen_size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Utils {
   static String getUserId() {
@@ -21,19 +19,10 @@ class Utils {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  static Widget getLoader({Color color = Colors.purple}) {
+  static Widget getLoader({Color color = const Color.fromARGB(255, 115, 19, 132)}) {
     return Center(
-        child: CircularProgressIndicator(
+        child: SpinKitPulse(
             color: color,));
-  }
-   static Widget getScreenLoader({Color color = Colors.purple}) {
-    return Container(
-      height: ScreenSize.h,
-      width: ScreenSize.w,
-      child: Center(
-          child: CircularProgressIndicator(
-              color: color,)),
-    );
   }
 }
 

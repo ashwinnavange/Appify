@@ -23,7 +23,7 @@ class DashBoardController extends GetxController {
 
   final DashBoardSerivce _dashboardService = DashBoardSerivce();
 
-  final RxList<String> _words = ["Do more", "Easier to...", "Explore new"].obs;
+  final RxList<String> _words = ["Do more", "Work smarter", "Rest Easier","Go bigger"].obs;
   final RxInt _currentIndex = 0.obs;
   final RxString _currentWord = "".obs;
 

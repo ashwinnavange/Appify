@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import '../../reusables/myappbar.dart';
 import '../../reusables/unauthorized_view.dart';
 import '../dashboard/controller/dashboard_controller.dart';
@@ -15,10 +17,22 @@ class UploadView extends GetWidget<UploadController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      body: SingleChildScrollView(
-        child: Obx(() => _dashBoardController.isLoggedin.isTrue
-            ? UploadSection()
-            : const UnAuthorizedView()),
+      body: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayColor: Colors.grey.withOpacity(0.5),
+        overlayWidgetBuilder: (_) {
+        return const Center(
+          child: SpinKitPulse(
+            color: Colors.deepPurple,
+            size: 50.0,
+          ),
+        );
+      },
+        child: SingleChildScrollView(
+          child: Obx(() => _dashBoardController.isLoggedin.isTrue || controller.isLoading.value
+              ? UploadSection()
+              : const UnAuthorizedView()),
+        ),
       ),
     );
   }

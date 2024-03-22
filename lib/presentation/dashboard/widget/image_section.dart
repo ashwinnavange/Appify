@@ -33,7 +33,7 @@ class ImageSection extends GetWidget<DashBoardController> {
             top: 0,
             bottom: ScreenSize.h * 0.3,
             child: Image.asset(
-              'images/dashboard_bgi.png',
+              'images/dashboard_bgi_edit.png',
               fit: BoxFit.cover,
               width: ScreenSize.w,
             ),
@@ -80,7 +80,7 @@ class ImageSection extends GetWidget<DashBoardController> {
             top: 0,
             bottom: ScreenSize.h * 0.2,
             child: Image.asset(
-              'images/dashboard_bgi.png',
+              'images/dashboard_bgi_edit.png',
               fit: BoxFit.cover,
               width: ScreenSize.w * 1.1,
             ),

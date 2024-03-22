@@ -41,6 +41,8 @@ dependencies:
   responsive_builder:
   file_picker:
   url_launcher:
+  loader_overlay:
+  flutter_spinkit:
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +54,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  flutter_launcher_icons:
+
+flutter_launcher_icons:
+  image_path: "assets/logo/logo_main.png"
+  android: true
+  ios: true
+  web:
+    generate: true
+    image_path: "assets/logo/logo_main.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

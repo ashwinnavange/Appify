@@ -15,7 +15,7 @@ class UploadSection extends GetWidget<UploadController> {
   Uint8List? apkFile = Uint8List(00);
   List<Uint8List>? screenshotFile = [];
   Uint8List? logoFile = Uint8List(0);
-  String type = 'App';
+  String? type;
 
   @override
   Widget build(BuildContext context) {
@@ -86,20 +86,30 @@ class UploadSection extends GetWidget<UploadController> {
           CustomTextField("What's New", controller.whatsNewController,
               ScreenSize.w, true, 5),
           20.ph,
-          Container(
-            width: ScreenSize.w,
-            child: DropdownButton<String>(
-              value: 'App',
-              onChanged: (String? newValue) {
-                type = newValue!;
-              },
-              items: <String>['App', 'Game'] // Dropdown items
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),),
+          DropdownButtonFormField<String>(
+            decoration: const InputDecoration(
+              hintText: 'Select Type',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+            ),
+            value: type,
+            items: ['App', 'Game']
+                .map((category) => DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    ))
+                .toList(),
+            onChanged: (value) {
+              type = value!;
+            },
+            validator: (val) {
+              if (val == null || val.trim() == '') {
+                return 'Please Select Type';
+              } else {
+                return null;
+              }
+            },
           ),
           20.ph,
           CustomTextField("Category (List Max 3 Seperated by comma)",
@@ -187,12 +197,13 @@ class UploadSection extends GetWidget<UploadController> {
     return SizedBox(
       width: width,
       child: TextFormField(
+        
           keyboardType:
               isMultiline ? TextInputType.multiline : TextInputType.text,
           maxLines: maxlines,
           controller: controller,
           decoration: InputDecoration(
-            hintText: hintText,
+            labelText: hintText,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -301,18 +312,21 @@ class UploadSection extends GetWidget<UploadController> {
         CommonButton(
           onPressed: () async {
             if (formKey.currentState!.validate()) {
-              await controller.uploadApp(apkFile, screenshotFile, logoFile!);
+              await controller.uploadApp(apkFile, screenshotFile, logoFile!, type!);
             }
           },
           title: "Upload",
+          isLoading: controller.isLoading.value,
           backgroundColor: Colors.black,
           textColor: Colors.white,
           width: 100,
         ),
         10.pw,
         CommonButton(
-          onPressed: () {},
-          title: "Cancel",
+          onPressed: () {
+            Get.back();
+          },
+          title: "Back",
           backgroundColor: Colors.transparent,
           textColor: Colors.black,
           width: 100,

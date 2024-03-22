@@ -7,6 +7,7 @@ import '../../../utils/routes.dart';
 import '../../../utils/utils.dart';
 import '../../dashboard/controller/dashboard_controller.dart';
 import '../service/upload_service.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class UploadController extends GetxController {
   final DashBoardController _dashBoardController = Get.find();
@@ -47,6 +48,11 @@ class UploadController extends GetxController {
 
   void toogleLoading(bool value) {
     isLoading.value = value;
+    if(isLoading.value) {
+      Get.context!.loaderOverlay.show();
+    } else {
+      Get.context!.loaderOverlay.hide();
+    }
   }
 
   Future<Uint8List?> getFile(List<String> allowedExtensions) async {
@@ -88,6 +94,7 @@ class UploadController extends GetxController {
     Uint8List? apkFile,
     List<Uint8List>? screenshotFile,
     Uint8List? logoFile,
+    String type,
   ) async {
     toogleLoading(true);
     try {
@@ -107,7 +114,7 @@ class UploadController extends GetxController {
         packageName: packageNameController.text.trim(),
         appFile: apkFile,
         developerName: Utils.getUserName(),
-        type: "Free",
+        type: type,
         userId: Utils.getUserId(),
         rating: 0,
         photos: screenshotFile,

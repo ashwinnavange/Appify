@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'package:appify/presentation/dashboard/controller/dashboard_controller.dart';
 import 'package:appify/utils/theme.dart';
 import 'package:appify/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import '../../../reusables/custom_text_button.dart';
 import '../../../utils/screen_size.dart';
 

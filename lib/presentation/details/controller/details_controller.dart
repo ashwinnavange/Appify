@@ -29,9 +29,7 @@ class DetailsController extends GetxController{
 
   Future<void> downloadAPK(String link) async {
     final Uri url = Uri.parse(link);
-    if (!await launchUrl(url)) {
-      Utils.showToaster("Error while downloading file", Get.context!);
-    }
+    await launchUrl(url);
   }
 
   Future<void> getAppDetails() async {

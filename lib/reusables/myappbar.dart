@@ -147,12 +147,12 @@ class MyAppBar extends GetWidget<DashBoardController>
     return PopupMenuButton<int>(
       offset: const Offset(0, 60),
       itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 0,
-          enabled: false,
-          child: Center(child: Text('Welcome, ${Utils.getUserName()}!')),
-        ),
-        const PopupMenuDivider(),
+        // PopupMenuItem(
+        //   value: 0,
+        //   enabled: false,
+        //   child: Center(child: Text('Welcome, ${Utils.getUserName()}!')),
+        // ),
+        // const PopupMenuDivider(),
         const PopupMenuItem(
           value: 1,
           child: Row(
