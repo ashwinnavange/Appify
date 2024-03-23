@@ -33,7 +33,7 @@ class AllGames extends GetWidget<DashBoardController> {
             alignment: Alignment.centerLeft,
             child: Text(
               "  All Games",
-              style: CustomTextStyle.heading1(),
+              style: CTS.h1(24),
             ),
           ),
           20.ph,
@@ -58,7 +58,7 @@ class AllGames extends GetWidget<DashBoardController> {
             alignment: Alignment.centerLeft,
             child: Text(
               "  All Games",
-              style: CustomTextStyle.heading1(),
+              style: CTS.h1(24),
             ),
           ),
           20.ph,
@@ -129,18 +129,18 @@ class AllGames extends GetWidget<DashBoardController> {
                     child: Text(controller.games![index].appName!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: CustomTextStyle.heading2()),
+                        style: CTS.h2(16)),
                   ),
                   Row(
                     children: [
                       Icon(
                         Icons.star,
                         color: Colors.green,
-                        size: ScreenSize.h * 0.015,
+                        size: 14,
                       ),
                       2.pw,
                       Text(controller.games![index].rating.toString(),
-                          style: CustomTextStyle.heading3()),
+                          style: CTS.h3(14)),
                     ],
                   ),
                 ],

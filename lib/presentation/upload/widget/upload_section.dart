@@ -186,7 +186,7 @@ class UploadSection extends GetWidget<UploadController> {
                   ScreenSize.w, false, 1),
               20.ph,
               CustomTextField("Version", controller.versionController,
-                  ScreenSize.w * 0.55, false, 1),
+                  ScreenSize.w, false, 1),
             ],
           );
   }

@@ -31,7 +31,7 @@ class HeaderSection extends GetWidget<DetailsController> {
           App(),
           20.ph,
           CommonButton(
-            title: 'Install',
+            title: 'Download',
             backgroundColor: Colors.black,
             textColor: Colors.white,
             onPressed: () {
@@ -62,13 +62,13 @@ class HeaderSection extends GetWidget<DetailsController> {
               ScreenSize.w >= 1280
                   ? Expanded(child: Photos())
                   : CommonButton(
-                      title: 'Install',
+                      title: 'Download',
                       backgroundColor: Colors.black,
                       textColor: Colors.white,
                       onPressed: () {
                         controller.downloadAPK(controller.app!.value.appFile!);
                       },
-                      width: ScreenSize.w * 0.2,
+                      width: ScreenSize.w * 0.22,
                     ),
             ],
           ),
@@ -124,10 +124,10 @@ class HeaderSection extends GetWidget<DetailsController> {
                     ? ScreenSize.w * 0.18
                     : ScreenSize.w >= 950
                         ? ScreenSize.w * 0.37
-                        : ScreenSize.w * 0.55,
+                        : ScreenSize.w * 0.5,
                 child: Text(
                   controller.app!.value.appName ?? 'N/A',
-                  style: CustomTextStyle.heading2(fontSize: 24),
+                  style: CTS.h2(24),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ))
@@ -144,7 +144,7 @@ class HeaderSection extends GetWidget<DetailsController> {
             controller.app!.value.shortDescription ?? 'N/A',
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: CustomTextStyle.heading2(fontSize: 20),
+            style: CTS.h2(20),
           ),
         ),
         20.ph,
@@ -154,14 +154,12 @@ class HeaderSection extends GetWidget<DetailsController> {
             Column(
               children: [
                 Text('Rating',
-                    style: CustomTextStyle.heading3(
-                        fontSize: 15, fontWeight: FontWeight.w500)),
+                    style: CTS.h3(15)),
                 Row(
                   children: [
                     Text(
                       controller.app!.value.rating.toString(),
-                      style: CustomTextStyle.heading3(
-                          fontSize: 16, fontWeight: FontWeight.w800),
+                      style: CTS.h2(16),
                     ),
                     2.pw,
                     Icon(Icons.star),
@@ -182,13 +180,11 @@ class HeaderSection extends GetWidget<DetailsController> {
               children: [
                 Text(
                   'Downloads',
-                  style: CustomTextStyle.heading3(
-                      fontSize: 15, fontWeight: FontWeight.w500),
+                  style: CTS.h3(15),
                 ),
                 Text(
                   controller.app!.value.totalDownloads.toString(),
-                  style: CustomTextStyle.heading3(
-                      fontSize: 16, fontWeight: FontWeight.w800),
+                  style: CTS.h2(16),
                 ),
               ],
             ),
@@ -205,13 +201,11 @@ class HeaderSection extends GetWidget<DetailsController> {
               children: [
                 Text(
                   'Developer',
-                  style: CustomTextStyle.heading3(
-                      fontSize: 15, fontWeight: FontWeight.w500),
+                  style: CTS.h3(15),
                 ),
                 Text(
                   controller.app!.value.developerName ?? 'N/A',
-                  style: CustomTextStyle.heading3(
-                      fontSize: 16, fontWeight: FontWeight.w800),
+                  style: CTS.h2(16),
                 ),
               ],
             ),
@@ -220,7 +214,7 @@ class HeaderSection extends GetWidget<DetailsController> {
         20.ph,
         ScreenSize.w >= 1280
             ? CommonButton(
-                title: 'Install',
+                title: 'Download',
                 backgroundColor: Colors.black,
                 textColor: Colors.white,
                 onPressed: () {

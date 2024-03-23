@@ -1,4 +1,6 @@
 // ignore: must_be_immutable
+import 'dart:html';
+
 import 'package:appify/presentation/dashboard/controller/dashboard_controller.dart';
 import 'package:appify/utils/helper.dart';
 import 'package:appify/utils/utils.dart';
@@ -195,16 +197,16 @@ class MyAppBar extends GetWidget<DashBoardController>
   }
 
   Widget navButtons(BuildContext context) {
-    return ScreenSize.w > 425 ? Row(
+    return ScreenSize.w > 600 ? Row(
       children: [
         CommonButton(
           title: 'Log in',
           backgroundColor: Colors.white,
           textColor: Colors.black,
           onPressed: () {
-            controller.showMyDialog(context, false);
+            
           },
-          width: 100,
+          width: 120,
         ),
         10.pw,
         CommonButton(
@@ -214,7 +216,7 @@ class MyAppBar extends GetWidget<DashBoardController>
           onPressed: () {
             controller.showMyDialog(context, true);
           },
-          width: 100,
+          width: 120,
         ),
       ],
     ) : PopupMenuButton<int>(
@@ -230,7 +232,7 @@ class MyAppBar extends GetWidget<DashBoardController>
             onPressed: () {
               controller.showMyDialog(context, false);
             },
-            width: 100,
+            width: double.infinity,
                     ),
           ),
         ),
@@ -245,7 +247,7 @@ class MyAppBar extends GetWidget<DashBoardController>
             onPressed: () {
               controller.showMyDialog(context, true);
             },
-            width: 100,
+            width: double.infinity,
                     ),
           ),
         ),

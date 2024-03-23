@@ -33,7 +33,7 @@ class ImageSection extends GetWidget<DashBoardController> {
             top: 0,
             bottom: ScreenSize.h * 0.3,
             child: Image.asset(
-              'images/dashboard_bgi_edit.png',
+              'assets/images/dashboard_bgi_edit.png',
               fit: BoxFit.cover,
               width: ScreenSize.w,
             ),
@@ -80,7 +80,7 @@ class ImageSection extends GetWidget<DashBoardController> {
             top: 0,
             bottom: ScreenSize.h * 0.2,
             child: Image.asset(
-              'images/dashboard_bgi_edit.png',
+              'assets/images/dashboard_bgi_edit.png',
               fit: BoxFit.cover,
               width: ScreenSize.w * 1.1,
             ),
@@ -136,7 +136,7 @@ class ImageSection extends GetWidget<DashBoardController> {
               textAlign: TextAlign.left,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: CustomTextStyle.heading1(),
+              style: CTS.h1(24),
             ),
           ),
           20.ph,
@@ -146,6 +146,7 @@ class ImageSection extends GetWidget<DashBoardController> {
                 : controller.apps!.isEmpty
                     ? const NoAppsAvailable()
                     : GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: min(6, controller.apps!.length),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -211,32 +212,32 @@ class ImageSection extends GetWidget<DashBoardController> {
             children: [
               Text(
                 controller.apps![index].appName!,
-                style: CustomTextStyle.heading2(),
+                style: CTS.h2(18),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(controller.apps![index].rating.toString(),
-                      style: CustomTextStyle.heading3()),
+                      style: CTS.h3(14)),
                   2.pw,
                   Icon(
                     Icons.star,
                     color: Colors.green,
                     size: ScreenSize.h * 0.015,
                   ),
-                  Text(' • ', style: CustomTextStyle.heading3()),
+                  Text(' • ', style: CTS.h3(14)),
                   Expanded(
                     child: Text('Free to install',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: CustomTextStyle.heading3()),
+                        style: CTS.h3(14)),
                   ),
                 ],
               ),
               Text(controller.apps![index].shortDescription!,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: CustomTextStyle.heading3()),
+                  style: CTS.h3(14)),
             ],
           ),
         )

@@ -12,7 +12,7 @@ class NoAppsAvailable extends StatelessWidget {
       child: Center(
         child: Text(
           "No Item Available!",
-          style: CustomTextStyle.heading2(color: Colors.grey),
+          style: CTS.h2(16,color: Colors.grey),
         ),
       ),
     );

@@ -83,7 +83,7 @@ class DashBoardController extends GetxController {
                   double height = MediaQuery.of(context).size.height;
                   double width = MediaQuery.of(context).size.width;
                   return SizedBox(
-                    height: isSignUp ? height * 0.3 : height * 0.2,
+                    height: isSignUp ? height * 0.35 : height * 0.2,
                     width: width * 0.4,
                     child: isSignUp ? _showSignUpDialog() : _showLoginDialog(),
                   );

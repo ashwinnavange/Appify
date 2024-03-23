@@ -1,9 +1,6 @@
 import 'dart:math';
-
 import 'package:appify/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -27,6 +24,8 @@ class DescriptionSection extends GetWidget<DetailsController> {
       padding:
           EdgeInsets.symmetric(horizontal: ScreenSize.w * 0.07, vertical: 40),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DescriptionWidget(),
           30.ph,
@@ -45,7 +44,7 @@ class DescriptionSection extends GetWidget<DetailsController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           HighlightAndAbout(),
-          (ScreenSize.w * 0.125).pw,
+          (ScreenSize.w * 0.045).pw,
           Expanded(child: DescriptionWidget()),
         ],
       ),
@@ -59,53 +58,47 @@ class DescriptionSection extends GetWidget<DetailsController> {
       children: [
         Text(
           'Highlights',
-          style: CustomTextStyle.heading1(fontSize: 20),
+          style: CTS.h1(20),
         ),
         10.ph,
-        HighlightCard(Icons.check, 'Made with Flutter',
-            ''),
+        HighlightCard(Icons.query_stats, 'Discover, Download and Delve!',
+            'Empowering your digital journey, one tap at a time.'),
         10.ph,
-        HighlightCard(Icons.public, 'Built for the world',
-            'Download Now and get started!'),
+        HighlightCard(Icons.public, 'Effortless efficiency, anytime, anywhere!',
+            'Navigate with Confidence, Explore with Ease!'),
         30.ph,
         Text(
           'About this app',
-          style: CustomTextStyle.heading1(fontSize: 20),
+          style: CTS.h1(20),
         ),
         10.ph,
         Text(
           'Launched',
-          style: CustomTextStyle.heading3(
-              fontSize: 16, fontWeight: FontWeight.w800),
+          style: CTS.h2(15),
         ),
         4.ph,
         Text(controller.app!.value.createdAt ?? 'N/A',
-            style: CustomTextStyle.heading3(
-                fontSize: 15, fontWeight: FontWeight.w500)),
+            style: CTS.h3(14)),
         10.ph,
         Text(
           'Package Name',
-          style: CustomTextStyle.heading3(
-              fontSize: 16, fontWeight: FontWeight.w800),
+          style: CTS.h2(15),
         ),
         4.ph,
         Text(controller.app!.value.packageName ?? 'N/A',
-            style: CustomTextStyle.heading3(
-                fontSize: 15, fontWeight: FontWeight.w500)),
+            style: CTS.h3(14)),
         10.ph,
         Text(
           'Version',
-          style: CustomTextStyle.heading3(
-              fontSize: 16, fontWeight: FontWeight.w800),
+          style: CTS.h2(15),
         ),
         4.ph,
         Text(controller.app!.value.version ?? 'N/A',
-            style: CustomTextStyle.heading3(
-                fontSize: 15, fontWeight: FontWeight.w500)),
+            style: CTS.h3(14)),
         30.ph,
         Text(
           'Categories',
-          style: CustomTextStyle.heading1(fontSize: 20),
+          style: CTS.h1(20),
         ),
         10.ph,
         Container(
@@ -116,8 +109,7 @@ class DescriptionSection extends GetWidget<DetailsController> {
             itemCount: min(3, controller.app!.value.categories!.length),
             itemBuilder: (context, index) {
               return Text(controller.app!.value.categories![index],
-                  style: CustomTextStyle.heading3(
-                      fontSize: 16, fontWeight: FontWeight.w800));
+                  style: CTS.h2(14));
             },
           ),
         )
@@ -131,22 +123,44 @@ class DescriptionSection extends GetWidget<DetailsController> {
       children: [
         Icon(icon),
         10.pw,
+        ScreenSize.w < 950 ? Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: CTS.h2(15),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                desc,
+                style: CTS.h3(14),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          ),
+        ) : 
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: CustomTextStyle.heading3(
-                  fontSize: 16, fontWeight: FontWeight.w800),
-            ),
-            Text(
-              desc,
-              style: CustomTextStyle.heading3(
-                  fontSize: 15, fontWeight: FontWeight.w500),
-            )
-          ],
-        )
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: CTS.h2(15),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                desc,
+                style: CTS.h3(14),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          )
       ],
     );
   }
@@ -158,7 +172,7 @@ class DescriptionSection extends GetWidget<DetailsController> {
       Align(
         child: Text(
           'Description',
-          style: CustomTextStyle.heading1(fontSize: 20),
+          style: CTS.h1(20),
         ),
         alignment: Alignment.centerLeft,
       ),
@@ -168,21 +182,20 @@ class DescriptionSection extends GetWidget<DetailsController> {
         maxLines: 20,
         overflow: TextOverflow.ellipsis,
         style:
-            CustomTextStyle.heading3(fontSize: 18, fontWeight: FontWeight.w500),
+            CTS.h3(18),
       ),
       30.ph,
       Align(
         child: Text(
           'What\'s New',
-          style: CustomTextStyle.heading1(fontSize: 20),
+          style: CTS.h1(20),
         ),
         alignment: Alignment.centerLeft,
       ),
       15.ph,
       Align(
         child: Text(controller.app!.value.whatsNew ?? 'N/A',
-            style: CustomTextStyle.heading3(
-                fontSize: 18, fontWeight: FontWeight.w500)),
+            style: CTS.h3(18)),
         alignment: Alignment.centerLeft,
       ),
     ]);

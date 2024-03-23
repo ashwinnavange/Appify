@@ -25,7 +25,7 @@ class AnimatedTextWidget extends GetWidget<DashBoardController> {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: ScreenSize.h * 0.07,
+                  fontSize: 55,
                   fontWeight: FontWeight.bold,
                   height: 1.1,
                 ),
@@ -37,7 +37,7 @@ class AnimatedTextWidget extends GetWidget<DashBoardController> {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: ScreenSize.h * 0.07,
+                      fontSize: 55,
                       fontWeight: FontWeight.bold,
                       height: 1.1),
                 ),
@@ -50,13 +50,13 @@ class AnimatedTextWidget extends GetWidget<DashBoardController> {
           textAlign: TextAlign.left,
           style: TextStyle(
               color: Colors.white,
-              fontSize: ScreenSize.h * 0.07,
+              fontSize: 55,
               fontWeight: FontWeight.bold,
               height: 1.1),
         ),
         20.ph,
         Obx(()=>
-        controller.isLoggedin.value ? Text("Welcome back, ${Utils.getUserName()}!",style: CustomTextStyle.heading1(color: Colors.white),) : 
+        controller.isLoggedin.value ? Text("Welcome back, ${Utils.getUserName()}!",style: CTS.h1(24,color: Colors.white),) : 
         ScreenSize.w > 950 ? 
         Row(children: [
           CommonButton(
@@ -66,7 +66,7 @@ class AnimatedTextWidget extends GetWidget<DashBoardController> {
             },
             textColor: Colors.black,
             title: "Log in",
-            width: ScreenSize.w * 0.06,
+            width: 120,
           ),
           20.pw,
           CommonButton(
@@ -76,7 +76,7 @@ class AnimatedTextWidget extends GetWidget<DashBoardController> {
             },
             textColor: Colors.black,
             title: "Sign up for Appify",
-            width: ScreenSize.w * 0.12,
+            width: 220,
           ),
         ],) : Column(
           children: [

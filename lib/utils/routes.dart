@@ -18,6 +18,8 @@ class AppRoutes{
     GetPage(
       name: dashboard,
       page: () => const DashBoardView(),
+      transition: Transition.size,
+      transitionDuration: const Duration(milliseconds: 1000),
       bindings: [
         DashBoardBinding(),
       ]
@@ -25,6 +27,8 @@ class AppRoutes{
     GetPage(
       name: details,
       page: () => DetailsView(),
+      transition: Transition.cupertino,
+      transitionDuration: const Duration(milliseconds: 500),
       bindings: [
         DetailsBinding(),
         DashBoardBinding(),
@@ -33,6 +37,8 @@ class AppRoutes{
     GetPage(
       name: upload,
       page: () => UploadView(),
+      transition: Transition.cupertino,
+      transitionDuration: const Duration(milliseconds: 500),
       bindings: [
         UploadBinding(),
         DashBoardBinding(),

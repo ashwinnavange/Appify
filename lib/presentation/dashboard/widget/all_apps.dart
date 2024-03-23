@@ -30,11 +30,11 @@ class AllApps extends GetWidget<DashBoardController> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Align(
+          Align(
             alignment: Alignment.centerLeft,
             child: Text(
               "  All Apps",
-              style: TextStyle(fontSize: 20),
+              style: CTS.h1(24),
             ),
           ),
           20.ph,
@@ -59,7 +59,7 @@ class AllApps extends GetWidget<DashBoardController> {
             alignment: Alignment.centerLeft,
             child: Text(
               " All Apps",
-              style: CustomTextStyle.heading1(),
+              style: CTS.h1(24),
             ),
           ),
           20.ph,
@@ -139,13 +139,13 @@ class AllApps extends GetWidget<DashBoardController> {
                         controller.apps![index].appName!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: CustomTextStyle.heading2(),
+                        style: CTS.h2(16),
                       )),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.green,size: ScreenSize.h * 0.015,),
+                      const Icon(Icons.star, color: Colors.green,size: 14,),
                       2.pw,
-                      Text(controller.apps![index].rating!.toString(),style: CustomTextStyle.heading3()),
+                      Text(controller.apps![index].rating!.toString(),style: CTS.h3(14)),
                     ],
                   ),
                 ],
