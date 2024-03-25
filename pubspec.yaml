@@ -43,6 +43,7 @@ dependencies:
   url_launcher:
   loader_overlay:
   flutter_spinkit:
+  dart_jsonwebtoken:
 
 dev_dependencies:
   flutter_test:

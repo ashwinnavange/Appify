@@ -19,8 +19,8 @@ class DetailsController extends GetxController{
   @override
   Future<void> onInit() async {
     super.onInit();
-    packageName = Get.arguments ?? "com.test";
-    if (packageName == null) {
+    packageName = Get.parameters['id'] ?? 'com.test';
+    if (packageName == '' || packageName == null) {
       Get.offAllNamed(AppRoutes.dashboard);
     } else {
       await getAppDetails();

@@ -3,6 +3,8 @@ import 'package:appify/data/network_service/base_api_services.dart';
 import 'package:appify/data/resolve_response.dart';
 import 'package:http/http.dart' as http;
 
+import '../../utils/utils.dart';
+
 class NetworkApiServices extends BaseApiServices {
   // dependency injection
   final http.Client client;
@@ -17,7 +19,7 @@ class NetworkApiServices extends BaseApiServices {
           .delete(Uri.parse(url),
               headers: {
                 'Content-type': 'application/json',
-                // 'Authorization': PrefHelper().getString(PrefHelper.TOKEN)
+                'Authorization': Utils.getToken(),
               },
               body: json.encode(data))
           .timeout(const Duration(seconds: 20));
@@ -32,9 +34,16 @@ class NetworkApiServices extends BaseApiServices {
   Future<dynamic> get(String url) async {
     dynamic responseJson = {"status": false};
     try {
-      final response = await client.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
+      final response = await client.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': Utils.getToken(),
+        },
+      ).timeout(const Duration(seconds: 20));
       responseJson = resolveResponse(response);
     } catch (e) {
+      print(e);
       rethrow;
     }
     return responseJson;
@@ -48,6 +57,7 @@ class NetworkApiServices extends BaseApiServices {
           .post(Uri.parse(url),
               headers: {
                 'Content-type': 'application/json',
+                'Authorization': Utils.getToken(),
               },
               body: json.encode(data))
           .timeout(const Duration(seconds: 20));
@@ -66,6 +76,7 @@ class NetworkApiServices extends BaseApiServices {
           .put(Uri.parse(url),
               headers: {
                 'Content-type': 'application/json',
+                'Authorization': Utils.getToken(),
               },
               body: json.encode(data))
           .timeout(const Duration(seconds: 20));

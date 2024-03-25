@@ -10,8 +10,8 @@ class UserRepository {
 
   Future<dynamic> getUserDetails(String userId) async {
     try {
-      dynamic response = await _apiServices.get(AppUrl.getUser(userId));
-      if (response.status == 200) {
+      dynamic response = await _apiServices.get(AppUrl.getUser(userId));;
+      if (response!= null) {
         response = User.fromMap(response);
       }
       return response;

@@ -38,11 +38,41 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+
+  <!-- <link rel="preload" href="https://appify-34469.web.app/assets/assets/images/dashboard_bgi_edit.png" as="fetch" crossorigin> -->
+
+  <link rel="preload" href="https://appify-34469.web.app/assets/fonts/MaterialIcons-Regular.otf" as="fetch" crossorigin>
+  <link rel="preload" href="https://appify-34469.web.app/assets/assets/fonts/Inter-SemiBold.ttf" as="fetch" crossorigin>
+  <link rel="preload" href="https://appify-34469.web.app/assets/assets/fonts/Inter-Regular.ttf" as="fetch" crossorigin>
+  <link rel="preload" href="https://appify-34469.web.app/assets/assets/fonts/Inter-Medium.ttf" as="fetch" crossorigin>
+  <link rel="preload" href="https://appify-34469.web.app/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf" as="fetch" crossorigin>
+
+  <link rel="preconnect" href="https://appify-backend-production.up.railway.app/">
 </head>
 <body>
+  <div class="loading" id="loading">
+    <style>
+      .loading{
+        position: absolute;
+        top: calc(50% - 100px);
+        left: calc(50% - 100px);
+        width: 200px;
+        height: 200px;
+        border: 5px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 3px solid #3498db;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </div>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
+      let loading = document.querySelector('#loading');
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
@@ -50,6 +80,7 @@
         onEntrypointLoaded: function(engineInitializer) {
           let config = { renderer: 'html' };
           engineInitializer.initializeEngine(config).then(function(appRunner) {
+            loading.remove();
             appRunner.runApp();
           });
         }

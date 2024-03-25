@@ -10,11 +10,13 @@ import 'widget/header_section.dart';
 class DetailsView extends GetWidget<DetailsController> {
   DetailsView({super.key});
 
+  String packageName = Get.parameters['id'] ?? '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      body: Obx(()=> controller.isLoading.value ? Utils.getLoader() :
+      body: Obx(()=> controller.isLoading.value ?  Utils.getLoader() : packageName == '' ?  Center(child: Text("No data found")) :
       SingleChildScrollView(
         child: Column(
           children: [

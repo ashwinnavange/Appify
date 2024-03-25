@@ -163,8 +163,7 @@ class ImageSection extends GetWidget<DashBoardController> {
                           return InkWell(
                               onTap: () {
                                 Get.toNamed(AppRoutes.details,
-                                    arguments:
-                                        controller.apps![index].packageName!);
+                                    parameters: {'id': controller.apps![index].packageName!});
                               },
                               child: HeaderContentCard(context, index));
                         },

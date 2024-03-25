@@ -1,3 +1,5 @@
+import 'package:appify/presentation/library/binding/library_binding.dart';
+import 'package:appify/presentation/library/library_view.dart';
 import 'package:appify/presentation/upload/bindings/upload_binding.dart';
 import 'package:appify/presentation/upload/upload_view.dart';
 import 'package:get/get.dart';
@@ -14,12 +16,14 @@ class AppRoutes{
 
   static const String upload= '/upload';
 
+  static const String library= '/library';
+
   static List<GetPage> page = [
     GetPage(
       name: dashboard,
       page: () => const DashBoardView(),
-      transition: Transition.size,
-      transitionDuration: const Duration(milliseconds: 1000),
+      transition: Transition.native,
+      transitionDuration: const Duration(milliseconds: 500),
       bindings: [
         DashBoardBinding(),
       ]
@@ -41,6 +45,16 @@ class AppRoutes{
       transitionDuration: const Duration(milliseconds: 500),
       bindings: [
         UploadBinding(),
+        DashBoardBinding(),
+      ]
+    ),
+    GetPage(
+      name: library,
+      page: () => LibraryView(),
+      transition: Transition.cupertino,
+      transitionDuration: const Duration(milliseconds: 500),
+      bindings: [
+        LibraryBinding(),
         DashBoardBinding(),
       ]
     ),

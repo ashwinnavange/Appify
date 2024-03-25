@@ -1,6 +1,3 @@
-// ignore: must_be_immutable
-import 'dart:html';
-
 import 'package:appify/presentation/dashboard/controller/dashboard_controller.dart';
 import 'package:appify/utils/helper.dart';
 import 'package:appify/utils/utils.dart';
@@ -10,6 +7,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../utils/routes.dart';
 import '../utils/screen_size.dart';
+import '../utils/theme.dart';
 import 'custom_text_button.dart';
 
 // ignore: must_be_immutable
@@ -149,17 +147,21 @@ class MyAppBar extends GetWidget<DashBoardController>
     return PopupMenuButton<int>(
       offset: const Offset(0, 60),
       itemBuilder: (context) => [
-        // PopupMenuItem(
-        //   value: 0,
-        //   enabled: false,
-        //   child: Center(child: Text('Welcome, ${Utils.getUserName()}!')),
-        // ),
-        // const PopupMenuDivider(),
+        const PopupMenuItem(
+          value: 0,
+          child: Row(
+            children: [
+              Icon(Icons.library_books_outlined),
+              SizedBox(width: 10),
+              Text("Library"),
+            ],
+          ),
+        ),
         const PopupMenuItem(
           value: 1,
           child: Row(
             children: [
-              Icon(Icons.upload),
+              Icon(Icons.upload_outlined),
               SizedBox(width: 10),
               Text("Upload App"),
             ],
@@ -177,12 +179,15 @@ class MyAppBar extends GetWidget<DashBoardController>
         ),
       ],
       onSelected: (value) {
+        if(value == 0){
+          Get.toNamed(AppRoutes.library);
+        }
         if (value == 1) {
           Get.toNamed(AppRoutes.upload);
         }
         if (value == 2) {
           PrefHelper().removeCache();
-          controller.isLoggedIn();
+          controller.isLoggedin(false);
         }
       },
       child: const CircleAvatar(
@@ -204,7 +209,7 @@ class MyAppBar extends GetWidget<DashBoardController>
           backgroundColor: Colors.white,
           textColor: Colors.black,
           onPressed: () {
-            
+            controller.showMyDialog(context, false);
           },
           width: 120,
         ),
@@ -221,35 +226,39 @@ class MyAppBar extends GetWidget<DashBoardController>
       ],
     ) : PopupMenuButton<int>(
       offset: const Offset(0, 60),
+      onSelected: (value) {
+        if (value == 1) {
+          controller.showMyDialog(context, false);
+        }
+        if (value == 2) {
+          controller.showMyDialog(context, true);
+        }
+      },
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 1,
-          child: Center(
-            child: CommonButton(
-            title: 'Log in',
-            backgroundColor: Colors.white,
-            textColor: Colors.black,
-            onPressed: () {
-              controller.showMyDialog(context, false);
-            },
+          child: Container(
             width: double.infinity,
-                    ),
-          ),
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          child: Center(child: Text('Log in', style: CTS.h1(16,color: Colors.black))),
+                  ),
         ),
         const PopupMenuDivider(),
         PopupMenuItem(
           value: 2,
-          child: Center(
-            child: CommonButton(
-            title: 'Sign up',
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            onPressed: () {
-              controller.showMyDialog(context, true);
-            },
+          child: Container(
+            height: 40,
             width: double.infinity,
-                    ),
-          ),
+          decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(20),
+            ),
+          child: Center(child: Text('Sign Up', style: CTS.h1(16,color: Colors.white))),
+                  ),
         ),
       ],
       child: const CircleAvatar(

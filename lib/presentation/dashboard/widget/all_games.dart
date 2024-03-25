@@ -1,3 +1,4 @@
+import 'package:appify/utils/routes.dart';
 import 'package:appify/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,7 +81,9 @@ class AllGames extends GetWidget<DashBoardController> {
                 itemCount: controller.games!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(AppRoutes.details, parameters: {'id': controller.games![index].packageName!});
+                    },
                     child: GameCard(context, index),
                   );
                 },

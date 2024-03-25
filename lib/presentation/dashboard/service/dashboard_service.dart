@@ -16,7 +16,7 @@ class DashBoardSerivce {
         'email': email,
         'password': password
       });
-      if (response['_id']!=null) {
+      if (response['token']!=null) {
         return ApiResponse(
             true, response, 'Successfully Registered!');
       }
@@ -32,7 +32,7 @@ class DashBoardSerivce {
         'email': email,
         'password': password
       });
-      if (response['_id']!=null) {
+      if (response['token']!=null) {
         return ApiResponse(
             true, response, 'Successfully Logged In!');
       }
@@ -45,7 +45,7 @@ class DashBoardSerivce {
   Future<ApiResponse> getUser(String id) async {
     try {
       final response = await _userRepository.getUserDetails(id);
-      if (response['_id']!=null) {
+      if (response!=null) {
         return ApiResponse(
             true, response as User, 'Successfully Fetch User Data!');
       }

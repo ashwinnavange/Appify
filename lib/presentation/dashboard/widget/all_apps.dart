@@ -82,7 +82,7 @@ class AllApps extends GetWidget<DashBoardController> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             onTap: () {
-              Get.toNamed(AppRoutes.details, arguments: controller.apps![index].packageName);
+              Get.toNamed(AppRoutes.details, parameters: {'id': controller.apps![index].packageName!});
             },
             child: AppCard(context, index),
           );

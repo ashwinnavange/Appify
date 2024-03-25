@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:appify/presentation/dashboard/service/dashboard_service.dart';
 import 'package:appify/utils/utils.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,7 @@ class DashBoardController extends GetxController {
   Rx<User>? user;
   RxList<App>? apps = <App>[].obs;
   RxList<App>? games = <App>[].obs;
+  final formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -39,7 +41,7 @@ class DashBoardController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    isLoggedIn();
+    await isLoggedIn();
     _startAnimation();
     await getAllApps();
     await getAllGames();
@@ -62,11 +64,11 @@ class DashBoardController extends GetxController {
     isLoginLoading.value = value;
   }
 
-  void isLoggedIn() {
-    if (Utils.getUserId() == '') {
+  Future<void> isLoggedIn() async {
+    if (Utils.getToken() == '') {
       isLoggedin(false);
     } else {
-      isLoggedin(true);
+      await getUser();
     }
   }
 
@@ -78,21 +80,27 @@ class DashBoardController extends GetxController {
           builder: (context, setState) {
             return AlertDialog(
               title: !isSignUp ? const Text('Log in') : const Text('Sign Up'),
-              content: Builder(
-                builder: (context) {
-                  double height = MediaQuery.of(context).size.height;
-                  double width = MediaQuery.of(context).size.width;
-                  return SizedBox(
-                    height: isSignUp ? height * 0.35 : height * 0.2,
-                    width: width * 0.4,
-                    child: isSignUp ? _showSignUpDialog() : _showLoginDialog(),
-                  );
-                },
+              content: SingleChildScrollView(
+                dragStartBehavior: DragStartBehavior.down,
+                child: Builder(
+                  builder: (context) {
+                    double height = MediaQuery.of(context).size.height;
+                    double width = MediaQuery.of(context).size.width;
+                    return Form(
+                      key: formKey,
+                      child: SizedBox(
+                        height: isSignUp ? height * 0.4 : height * 0.2,
+                        width: width * 0.4,
+                        child: isSignUp ? _showSignUpDialog() : _showLoginDialog(),
+                      ),
+                    );
+                  },
+                ),
               ),
               actions: <Widget>[
                TextButton(
                     onPressed: () async {
-                            isSignUp ? await registerUser() : await loginUser();
+                            if (formKey.currentState!.validate()) isSignUp ? await registerUser() : await loginUser();
                           },
                     child:
                         isSignUp ? const Text('Sign Up') : const Text('Login'),
@@ -114,24 +122,10 @@ class DashBoardController extends GetxController {
   Widget _showSignUpDialog() {
     return Column(
       children: <Widget>[
-        TextField(
-          controller: nameController,
-          decoration: const InputDecoration(labelText: 'Name'),
-        ),
-        TextField(
-          controller: emailController,
-          decoration: const InputDecoration(labelText: 'Email'),
-        ),
-        TextField(
-          controller: passwordController,
-          decoration: const InputDecoration(labelText: 'Password'),
-          obscureText: true,
-        ),
-        TextField(
-          controller: confirmPasswordController,
-          decoration: const InputDecoration(labelText: 'Confirm Password'),
-          obscureText: true,
-        ),
+        CustomTextFieldInput(nameController, 'Name'),
+        CustomTextFieldInput(emailController, 'Email'),
+        CustomTextFieldInput(passwordController, 'Password'),
+        CustomTextFieldInput(confirmPasswordController, 'Confirm Password'),
       ],
     );
   }
@@ -139,25 +133,48 @@ class DashBoardController extends GetxController {
   Widget _showLoginDialog() {
     return Column(
       children: <Widget>[
-        TextField(
-          controller: emailController,
-          decoration: const InputDecoration(labelText: 'Email'),
-        ),
-        TextField(
-          controller: passwordController,
-          decoration: const InputDecoration(labelText: 'Password'),
-          obscureText: true,
-        ),
+        CustomTextFieldInput(emailController, 'Email'),
+        CustomTextFieldInput(passwordController, 'Password'),
       ],
     );
+  }
+
+  Widget CustomTextFieldInput(TextEditingController controller, String label){
+    return TextFormField(
+            controller: controller,
+            decoration: InputDecoration(labelText: label),
+            obscureText: label == 'Password' || label == 'Confirm Password' ? true : false,
+            validator: (val) {
+            if (val == null || val.trim() == '') {
+              return 'Please Enter $label';
+            } 
+            if(label == 'Email' && !RegExp(r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$').hasMatch(val)){
+              return 'Please Enter a valid Email';
+            }
+            if(label == 'Password' && val.length < 6){
+              return 'Password should be atleast 6 characters';
+            }
+            if(label == 'Confirm Password' && val != passwordController.text){
+              return 'Password and Confirm Password should be same';
+            }
+            else {
+              return null;
+            }
+          }
+          );
   }
 
   Future<void> getUser() async {
     toggleLoading(true);
     try {
       final response = await _dashboardService.getUser(Utils.getUserId());
+      if(response.message=='Unauthorized' || response.message=='Invalid Token'){
+        isLoggedin(false);
+        return;
+      }
       if (response.status) {
-        user = Rx(User(email: '', id: '', name: '', password: ''));
+        isLoggedin(true);
+        user = Rx(User(email: '', id: '', name: ''));
         user!.value = response.data as User;
         return;
       }
@@ -170,18 +187,6 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> registerUser() async {
-    if (nameController.text.trim() == '' ||
-        emailController.text.trim() == '' ||
-        passwordController.text.trim() == '' ||
-        confirmPasswordController.text.trim() == '') {
-      Utils.showToaster('All fields are required', Get.context!);
-      return;
-    } else if (passwordController.text.trim() !=
-        confirmPasswordController.text.trim()) {
-      Utils.showToaster(
-          'Password and Confirm Password should be same', Get.context!);
-      return;
-    }
     toggleLoginLoading(true);
     try {
       final response = await _dashboardService.registerUser(
@@ -189,12 +194,12 @@ class DashBoardController extends GetxController {
           emailController.text.trim(),
           passwordController.text.trim());
       if (response.status) {
-        await PrefHelper().setString(PrefHelper.USER_ID, response.data['_id']);
+        await PrefHelper().setString(PrefHelper.TOKEN, response.data['token']);
         await PrefHelper()
             .setString(PrefHelper.USER_NAME, response.data['name']);
-        isLoggedIn();
-        Utils.showToaster(response.message, Get.context!);
+        isLoggedin(true);
         Navigator.of(Get.context!).pop();
+        Utils.showToaster(response.message, Get.context!);
       } else {
         Utils.showToaster(response.message, Get.context!);
       }
@@ -206,20 +211,15 @@ class DashBoardController extends GetxController {
   }
 
   Future<void> loginUser() async {
-    if (emailController.text.trim() == '' ||
-        passwordController.text.trim() == '') {
-      Utils.showToaster('All fields are required', Get.context!);
-      return;
-    }
     toggleLoginLoading(true);
     try {
       final response = await _dashboardService.loginUser(
           emailController.text.trim(), passwordController.text.trim());
       if (response.status) {
-        await PrefHelper().setString(PrefHelper.USER_ID, response.data['_id']);
+        await PrefHelper().setString(PrefHelper.TOKEN, response.data['token']);
         await PrefHelper()
             .setString(PrefHelper.USER_NAME, response.data['name']);
-        isLoggedIn();
+        isLoggedin(true);
         Navigator.of(Get.context!).pop();
         Utils.showToaster(response.message, Get.context!);
       } else {

@@ -2,8 +2,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:html' as html;
 
 class PrefHelper {
-  static const String USER_ID = 'user-id';
   static const String USER_NAME = 'user-name';
+  static const String TOKEN = 'token';
 
   static SharedPreferences? _pref;
   static final PrefHelper _instance = PrefHelper._privateConstructor();
@@ -31,8 +31,10 @@ class PrefHelper {
   }
 
   Future<void> removeCache() async {
-    html.window.localStorage.remove(PrefHelper.USER_ID);
-    await _pref!.remove(PrefHelper.USER_ID);
+    html.window.localStorage.remove(PrefHelper.USER_NAME);
+    await _pref!.remove(PrefHelper.USER_NAME);
+    html.window.localStorage.remove(PrefHelper.TOKEN);
+    await _pref!.remove(PrefHelper.TOKEN);
   }
 
   Future<bool> setString(String key, String value) async {
