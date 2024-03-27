@@ -102,7 +102,11 @@ class DescriptionSection extends GetWidget<DetailsController> {
         ),
         10.ph,
         Container(
-          width: 100,
+          width: ScreenSize.w >= 1280
+              ? ScreenSize.w * 0.25
+              : ScreenSize.w >= 950
+                  ? ScreenSize.w * 0.5
+                  : ScreenSize.w,
           height: 70,
           child: ListView.builder(
             shrinkWrap: true,
@@ -179,8 +183,6 @@ class DescriptionSection extends GetWidget<DetailsController> {
       15.ph,
       Text(
         controller.app!.value.description ?? 'N/A',
-        maxLines: 20,
-        overflow: TextOverflow.ellipsis,
         style:
             CTS.h3(18),
       ),

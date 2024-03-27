@@ -44,6 +44,8 @@ dependencies:
   loader_overlay:
   flutter_spinkit:
   dart_jsonwebtoken:
+  cached_network_image:
+  http_parser:
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import '../../../data/response/response.dart';
 import '../../../repository/app_repository.dart';
 import '../../../res/app_url.dart';
@@ -65,6 +66,7 @@ class UploadService {
           photoStreams[i],
           photos[i].lengthInBytes,
           filename: 'photo_$i.jpg',
+          contentType: MediaType('image', 'jpeg')
         ));
       }
       final response = await _appRespository.postApp(request);

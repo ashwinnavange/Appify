@@ -24,7 +24,7 @@ class LibraryService{
       if (response['message'] == 'Unauthorized' || response['message'] == 'Invalid Token') {
         return ApiResponse(false, null, response['message']);
       }
-      if (response['status']) {
+      else if (response['success']) {
         return ApiResponse(true, response, 'Successfully Deleted App!');
       }
       return ApiResponse(false, null, response['message']);
