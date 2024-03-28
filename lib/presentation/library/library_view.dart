@@ -15,12 +15,14 @@ class LibraryView extends GetWidget<LibraryController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: Obx(() =>
-          controller.isLoading.value ? Utils.getLoader() : _dashBoardController.isLoggedin.isTrue && controller.isLoggedin.isTrue
-              ? const LibrarySection()
-              : const UnAuthorizedView()),
+    return SafeArea(
+      child: Scaffold(
+        appBar: MyAppBar(),
+        body: Obx(() =>
+            controller.isLoading.value ? Utils.getLoader() : _dashBoardController.isLoggedin.isTrue && controller.isLoggedin.isTrue
+                ? const LibrarySection()
+                : const UnAuthorizedView()),
+      ),
     );
   }
 }

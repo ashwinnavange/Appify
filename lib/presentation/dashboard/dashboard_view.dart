@@ -14,22 +14,24 @@ class DashBoardView extends GetWidget<DashBoardController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: MyAppBar(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const ImageSection(),
-              //TopCharts(),
-              40.ph,
-              const AllApps(),
-              20.ph,
-              const AllGames(),
-              30.ph,
-              const FooterView(),
-            ],
-          ),
-        ),);
+    return SafeArea(
+      child: Scaffold(
+          appBar: MyAppBar(),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const ImageSection(),
+                //TopCharts(),
+                40.ph,
+                const AllApps(),
+                20.ph,
+                const AllGames(),
+                30.ph,
+                const FooterView(),
+              ],
+            ),
+          ),),
+    );
   }
 
   // ignore: non_constant_identifier_names

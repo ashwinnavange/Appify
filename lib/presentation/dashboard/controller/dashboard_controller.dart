@@ -41,6 +41,10 @@ class DashBoardController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
     await isLoggedIn();
     _startAnimation();
     await getAllApps();

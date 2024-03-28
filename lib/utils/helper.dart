@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 
 class PrefHelper {
   static const String USER_NAME = 'user-name';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 import '../../../model/library_model.dart';
 import '../../../utils/utils.dart';
 import '../service/library_service.dart';

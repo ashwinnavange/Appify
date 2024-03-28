@@ -96,7 +96,7 @@ class MyAppBar extends GetWidget<DashBoardController>
   Widget navLogo() {
     return InkWell(
       onTap: () {
-        Get.offNamed(AppRoutes.dashboard);
+        Get.offAndToNamed(AppRoutes.dashboard);
       },
       child: Row(
         children: [

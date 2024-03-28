@@ -15,23 +15,25 @@ class UploadView extends GetWidget<UploadController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: LoaderOverlay(
-        useDefaultLoading: false,
-        overlayColor: Colors.grey.withOpacity(0.5),
-        overlayWidgetBuilder: (_) {
-        return const Center(
-          child: SpinKitPulse(
-            color: Colors.deepPurple,
-            size: 50.0,
+    return SafeArea(
+      child: Scaffold(
+        appBar: MyAppBar(),
+        body: LoaderOverlay(
+          useDefaultLoading: false,
+          overlayColor: Colors.grey.withOpacity(0.5),
+          overlayWidgetBuilder: (_) {
+          return const Center(
+            child: SpinKitPulse(
+              color: Colors.deepPurple,
+              size: 50.0,
+            ),
+          );
+        },
+          child: SingleChildScrollView(
+            child: Obx(() => _dashBoardController.isLoggedin.isTrue || controller.isLoading.value
+                ? UploadSection()
+                : const UnAuthorizedView()),
           ),
-        );
-      },
-        child: SingleChildScrollView(
-          child: Obx(() => _dashBoardController.isLoggedin.isTrue || controller.isLoading.value
-              ? UploadSection()
-              : const UnAuthorizedView()),
         ),
       ),
     );

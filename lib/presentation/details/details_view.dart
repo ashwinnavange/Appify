@@ -14,20 +14,22 @@ class DetailsView extends GetWidget<DetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(),
-      body: Obx(()=> controller.isLoading.value ?  Utils.getLoader() : packageName == '' ?  Center(child: Text("No data found")) :
-      SingleChildScrollView(
-        child: Column(
-          children: [
-            const HeaderSection(),
-            const DescriptionSection(),
-            //const RatingSection(),
-            30.ph,
-            const FooterView(),
-          ],
-        ),
-      ),),
+    return SafeArea(
+      child: Scaffold(
+        appBar: MyAppBar(),
+        body: Obx(()=> controller.isLoading.value ?  Utils.getLoader() : packageName == '' ?  Center(child: Text("No data found")) :
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              const HeaderSection(),
+              const DescriptionSection(),
+              //const RatingSection(),
+              30.ph,
+              const FooterView(),
+            ],
+          ),
+        ),),
+      ),
     );
   }
 }
