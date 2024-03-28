@@ -188,6 +188,7 @@ class MyAppBar extends GetWidget<DashBoardController>
         if (value == 2) {
           PrefHelper().removeCache();
           controller.isLoggedin(false);
+          Get.offAndToNamed(AppRoutes.dashboard);
         }
       },
       child: const CircleAvatar(

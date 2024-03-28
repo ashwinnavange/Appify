@@ -19,7 +19,7 @@ class LibrarySection extends GetWidget<LibraryController> {
       mobile: (BuildContext context) => Container(
         margin: EdgeInsets.symmetric(
           horizontal: ScreenSize.w * 0.05,
-          vertical: ScreenSize.h * 0.05,
+          vertical: ScreenSize.h * 0.04,
         ),
         width: ScreenSize.w,
         child: LibraryBodySection(context),
@@ -27,7 +27,7 @@ class LibrarySection extends GetWidget<LibraryController> {
       desktop: (BuildContext context) => Container(
         margin: EdgeInsets.symmetric(
           horizontal: ScreenSize.w * 0.1,
-          vertical: ScreenSize.h * 0.05,
+          vertical: ScreenSize.h * 0.04,
         ),
         child: LibraryBodySection(context),
       ),
@@ -79,106 +79,117 @@ class LibrarySection extends GetWidget<LibraryController> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: Colors.grey,
-            width: 1,
-          ),
-        ),
-        child: ExpansionTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.network(
-                controller.library![index].logo!,
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(width: 10),
-              Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      controller.library![index].appName!,
-                      style: CTS.h1(16),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      controller.library![index].shortDescription!,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: CTS.h2(14),
-                    ),
-                    SizedBox(height: 5),
-                    Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      children: [
-                        Text(
-                          'Package Name: ',
-                          style: CTS.h2(14),
-                        ),
-                        Text(
-                          controller.library![index].packageName!,
-                          style: CTS.h3(14),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          ' | Version: ',
-                          style: CTS.h2(14),
-                        ),
-                        Text(
-                          controller.library![index].version!,
-                          style: CTS.h3(14),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          ' | Downloads: ',
-                          style: CTS.h2(14),
-                        ),
-                        Text(
-                          controller.library![index].totalDownloads.toString(),
-                          style: CTS.h3(14),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      padding: const EdgeInsets.symmetric(vertical:8.0),
+      child: ExpansionTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CommonButton(
-                    onPressed: () {},
-                    title: 'Update',
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    width: width / 5,
+             Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 3,
+                    offset: const Offset(0, 0),
                   ),
-                  CommonButton(
-                    onPressed: () {
-                      controller.showMyDialog(context, controller.library![index].appName!, controller.library![index].packageName!);
-                    },
-                    title: 'Delete',
-                    backgroundColor: Colors.black,
-                    textColor: Colors.white,
-                    width: width / 5,
-                  )
                 ],
               ),
-            )
+              child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: SizedBox.fromSize(
+              //size: Size.fromRadius(ScreenSize.h * 0.10), // Image radius
+              child: Image.network(
+                controller.library[index].logo!,
+                fit: BoxFit.cover,
+                height: 100,
+                width: 100,
+              ),
+            ),
+          ),
+            ),
+            SizedBox(width: 15),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    controller.library![index].appName!,
+                    style: CTS.h1(16),
+                  ),
+                  SizedBox(height: 5),
+                  ScreenSize.h >= 950 ? Text(
+                    controller.library![index].shortDescription!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: CTS.h2(14),
+                  ) : Container(),
+                  ScreenSize.h >= 950 ? SizedBox(height: 5) : Container(),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    children: [
+                      Text(
+                        '• Package Name: ',
+                        style: CTS.h2(14),
+                      ),
+                      Text(
+                        controller.library![index].packageName!,
+                        style: CTS.h3(14),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        '• Version: ',
+                        style: CTS.h2(14),
+                      ),
+                      Text(
+                        controller.library![index].version!,
+                        style: CTS.h3(14),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        '• Downloads: ',
+                        style: CTS.h2(14),
+                      ),
+                      Text(
+                        controller.library![index].totalDownloads.toString(),
+                        style: CTS.h3(14),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CommonButton(
+                  onPressed: () {},
+                  title: 'Update',
+                  backgroundColor: Colors.black,
+                  textColor: Colors.white,
+                  width: width / 4,
+                ),
+                CommonButton(
+                  onPressed: () {
+                    controller.showMyDialog(context, controller.library![index].appName!, controller.library![index].packageName!);
+                  },
+                  title: 'Delete',
+                  backgroundColor: Colors.black,
+                  textColor: Colors.white,
+                  width: width / 4,
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
