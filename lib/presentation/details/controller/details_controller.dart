@@ -28,8 +28,14 @@ class DetailsController extends GetxController{
   }
 
   Future<void> downloadAPK(String link) async {
-    final Uri url = Uri.parse(link);
-    await launchUrl(url);
+    try{
+      await _detailsService.increaseDownloadCount(packageName!);
+      final Uri url = Uri.parse(link);
+      await launchUrl(url);
+    }
+    catch(e){
+      Utils.showToaster("Error", Get.context!);
+    }
   }
 
   Future<void> getAppDetails() async {

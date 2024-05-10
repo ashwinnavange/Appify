@@ -58,4 +58,16 @@ class AppRespository {
     }
   }
 
+  Future<dynamic> increaseDownloadCount(String packageName) async {
+    try {
+      dynamic response = await _apiServices.post(AppUrl.increaseDownloadCount(packageName),{});
+      if(response!=null){
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
 }

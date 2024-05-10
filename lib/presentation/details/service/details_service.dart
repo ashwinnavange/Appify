@@ -17,4 +17,17 @@ class DetailsService {
       return ApiResponse(false, null, 'Error');
     }
   }
+
+  Future<ApiResponse> increaseDownloadCount(String packageName) async {
+    try {
+      final response = await _appRepository.increaseDownloadCount(packageName);
+      if (response != null) {
+        return ApiResponse(
+            true, response, 'Successfully increased download count!');
+      }
+      return ApiResponse(false, null, response['message']);
+    } catch (e) {
+      return ApiResponse(false, null, 'Error');
+    }
+  }
 }
